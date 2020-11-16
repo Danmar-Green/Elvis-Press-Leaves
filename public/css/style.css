@@ -32,3 +32,32 @@ body
 	width: 350px; padding: 20px;
 
 }
+/*account page styling by Danmar*/
+#userAcctInfo{
+  position: relative;
+  left:14px;
+  width: 50%;
+}
+#inner-table{
+  position: relative;
+  left:7px;
+  width: 98%;
+
+}
+#User-Profile{
+  background-color: #fbc97f;
+  position: relative;
+  left:-3px;
+    width: 98%;
+  height: 30px;
+}
+#Swap-History{
+background-color: #fbc97f;
+  position: relative;
+  left:5px;
+  width: 98%;
+  height: 30px;
+
+}
+
+/*account page styling by Danmar*/

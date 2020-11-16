@@ -1,3 +1,4 @@
+
 {{#if userID}}
 <div class="topnav">
   <img class="logo" src="/img/logo.png">
@@ -7,6 +8,7 @@
   <a href="/{{this.userID}}/swaps">Swap Notification</a>
   <a href="/{{this.userID}}/browse">Browse</a>
   <a href="/">Logout</a>
+
 </div>
 {{/if}}
 
@@ -14,87 +16,94 @@
 
 <p>View Your Account Information:</p>
 
+
+
+
 <div id="userAcctInfo">
-  <table>
+
+  <table id='header-table'>
       <thead>
-        <tr>
-          <th>Username</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Street Address</th>
-          <th>City</th>
-          <th>State</th>
-          <th>Zip Code</th>
-          <th>Available Points</th>
-          <th>Pending Points</th>
-{{!--     <th>Completed Swaps</th>
-          <th>Pending Swaps</th>
- --}}   </tr>
-      </thead>
-      <tbody>
-        {{#if userInfo}}
-        {{#each userInfo}}
           <tr>
-            <td>{{username}}</td>
-            <td>{{firstName}}</td>
-            <td>{{lastName}}</td>
-            <td>{{street}}</td>
-            <td>{{city}}</td>
-            <td>{{state}}</td>
-            <td>{{zipCode}}</td>
-            <td>{{availablePoints}}</td>
-            <td>{{pendingPoints}}</td>
-{{!--             <td>{{this.complSwap}}</td>
-            <td>{{this.pendSwap}}</td>
- --}}          </tr>
-        {{/each}}
-      </tbody>
-    </table>
-</div>
+            <th><button id="User-Profile">User Profile</botton></th>
+            <th><button id="Swap-History">Swap History</button></th>
+          </tr>
+    </thead>
+  </table>
+
+  <table >
+      <thead>
+          <tr>
+            <th>
+              <table id="inner-table">
+              <thead>
+
+                  <th>Username</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Street Address</th>
+                  <th>City</th>
+                  <th>State</th>
+                  <th>Zip Code</th>
+                  <th>Available Points</th>
+                  <th>Pending Points</th>
+        {{!--     <th>Completed Swaps</th>
+                  <th>Pending Swaps</th>
+         --}}
+              </thead>
+              <thead>
+                  {{#if userInfo}}
+                  {{#each userInfo}}
+
+                      <td>{{username}}</td>
+                      <td>{{firstName}}</td>
+                      <td>{{lastName}}</td>
+                      <td>{{street}}</td>
+                      <td>{{city}}</td>
+                      <td>{{state}}</td>
+                      <td>{{zipCode}}</td>
+                      <td>{{availablePoints}}</td>
+                      <td>{{pendingPoints}}</td>
+          {{!--             <td>{{this.complSwap}}</td>
+                      <td>{{this.pendSwap}}</td>
+           --}}
+                  {{/each}}
+              <thead>
+        </table>
+    </div>
+
+    <div id="header-table-3" style="display: none;">
+        <h1>THIS IS A SWAP HISTORY PAGE WHERE USERS WILL RECEIVE SWAPS - UNDER CONSTRUCTION</h1>
+    </div>
+
+        </th>
+      </tr>
+    </thead>
+  </table>
+
     {{else}}
         <div class="warnText">No User Account Information Available<br><br>
         </div>
     {{/if}}
   </div>
 
-<p>Update Your Account Information Here:</p>
-
-<form method = "post">
-    {{#if userInfo}}
-        {{#each userInfo}}
-              <fieldset>
-                  <legend>Update Selected Account Information:</legend>
-                  <label hidden>Username:
-                      <input type ="text" name ="usrnm" value="{{this.username}}">
-                  </label>
-                  <label>First Name:
-                      <input type ="text" name ="firstName" value="{{this.firstName}}">
-                  </label><br><br>
-                  <label>Last Name:
-                      <input type ="text" name ="lastName" value="{{lastName}}">
-                  </label><br><br>
-                  <label>Street Address:
-                      <input type ="text" name ="steet" value="{{street}}">
-                  </label><br><br>
-                  <label>City:
-                      <input type ="text" name ="city" value="{{city}}">
-                  </label><br><br>
-                  <label>State:
-                      <input type ="text" name ="state" value="{{state}}">
-                  </label><br><br>
-                  <label>Zip Code:
-                      <input type ="text" name ="zipCode" value="{{zipCode}}">
-                  </label><br><br>
-
-                  <p><input type="Submit" name="accountUpdate" id="accountUpdate" value="Update Account"></p>
-              </fieldset>
-          {{/each}}
-      {{/if}}
- </form>
-</div>
-
-
-
+<p>Edit Profile Information:</p>
+<div class="SignUp-container">
+			<form action="storeAccountInfo" method="POST">
+        <input class= "box" type="text" name="firstName" placeholder="First Name" required>
+        <input class= "box" type="text" name="lastName" placeholder="Last Name" required>
+				<input class= "box" type="text" name="username" placeholder="Username" required>
+				<input class= "box" type="text" name="email" placeholder="Email" required>
+        <input class= "box" type="text" name="address" placeholder="Address" required>
+        <input class= "box" type="text" name="city" placeholder="City" required>
+				<input class= "box" type="text" name="state" placeholder="State" required>
+        <input class= "box" type="text" name="street" placeholder="Street" required>
+        <input class= "box" type="text" name="zipCode" placeholder="Zip Code" required>
+				<input class= "box"type="password" name="password" placeholder="Password" required>
+				<input class= "box3" type="submit" value="Save Update">
+			</form>
 
 </div>
+
+
 <footer>© Elvis Press Leaves</footer>
+<script src="/account.js" charset="utf-8" defer></script>

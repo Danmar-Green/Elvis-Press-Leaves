@@ -64,12 +64,12 @@ var hbs = require("express-handlebars").create({
     // ROOT ROUTE
     app.get("/", function(req, res, next){
         res.render('home');
-    });  
+    });
 
     // REGISTRATION ROUTE
     app.get("/signup", function(req, res, next){
         res.render('signup');
-    });  
+    });
 
     // LOGIN ROUTE FOR DB
     app.post("/login", function(req, res, next) {
@@ -80,7 +80,7 @@ var hbs = require("express-handlebars").create({
                 console.log('error: ', err);
             } else {
                     contents.userInfo = result;
-                    res.send(contents);    
+                    res.send(contents);
             }
         });
     });
@@ -98,7 +98,7 @@ var hbs = require("express-handlebars").create({
                         console.log('error: ', err);
                     } else {
                             contents.userInfo = result;
-                            res.send(contents);    
+                            res.send(contents);
                     }
                 });
             }
@@ -117,8 +117,9 @@ var hbs = require("express-handlebars").create({
                     contents.userInfo = result;
                     console.log(result);
                     res.render('account', contents);
+                    //res.render({style:"account.css"});
             }
-        });    
+        });
     });
 
     // USER'S PERSONAL BOOKSHELF ROUTE
@@ -134,17 +135,17 @@ var hbs = require("express-handlebars").create({
                     console.log(result);
                     res.render('shelf', contents);
             }
-        });    
+        });
     });
-    
+
     // PUBLIC VIEW OF A USER'S SHELF
     app.get("/:userID/viewshelf/:viewID", function(req, res, next) {
         let contents = {};
         contents.userID = req.params.userID;
         contents.viewID = req.params.viewID;
-    
+
         res.render('viewshelf', contents);
-    });    
+    });
 
     // USER'S SEARCH ROUTE
     app.get("/:userID/browse", function(req, res, next) {
@@ -163,9 +164,9 @@ var hbs = require("express-handlebars").create({
                         } else {
                                 contents.bookList = result;
                                 console.log(result);
-                                res.render('browse', contents);    
+                                res.render('browse', contents);
                         }
-                    });    
+                    });
                 }
             });
     });
@@ -182,9 +183,9 @@ var hbs = require("express-handlebars").create({
                 } else {
                     contents.searchResults = result;
                     console.log(result);
-                    res.send(contents);    
+                    res.send(contents);
                 }
-            });        
+            });
         // for a search in title
          } else if (req.body.type == "title") {
             mysql.pool.query(searchTitle, req.body.criteria, (err, result) => {
@@ -193,9 +194,9 @@ var hbs = require("express-handlebars").create({
                 } else {
                     contents.searchResults = result;
                     console.log(result);
-                    res.send(contents);    
+                    res.send(contents);
                 }
-            });        
+            });
         // for a search in author
         } else if (req.body.type == "author") {
             mysql.pool.query(searchAuthor, req.body.criteria, (err, result) => {
@@ -204,9 +205,9 @@ var hbs = require("express-handlebars").create({
                 } else {
                     contents.searchResults = result;
                     console.log(result);
-                    res.send(contents);    
+                    res.send(contents);
                 }
-            });        
+            });
         // for a search in points
         } else {
             mysql.pool.query(searchPoints, req.body.criteria, (err, result) => {
@@ -216,9 +217,9 @@ var hbs = require("express-handlebars").create({
                         contents.searchResults = result;
                         console.log(result);
 
-                        res.send(contents);    
+                        res.send(contents);
                 }
-            });        
+            });
         }
     });
 
@@ -236,7 +237,7 @@ var hbs = require("express-handlebars").create({
 //                    console.log(result);
                     res.render('swaphistory', contents);
 //            }
-//        });    
+//        });
     });
 
     // USER'S PENDING SWAP REQUEST PAGE
@@ -249,7 +250,7 @@ var hbs = require("express-handlebars").create({
                     console.log('error: ', err);
                 } else {
                         contents.swaps = result;
-                        res.render('pendingswaps', contents);    
+                        res.render('pendingswaps', contents);
                 }
             }
         );
@@ -267,7 +268,7 @@ var hbs = require("express-handlebars").create({
                 console.log('error: ', err);
             } else {
                     contents.swaps = result;
-                    res.render('accept', contents);    
+                    res.render('accept', contents);
 
                 }
             }
@@ -289,19 +290,19 @@ var hbs = require("express-handlebars").create({
                     if (err) {
                         console.log('error: ', err);
                         res.send(err);
-                    } else {        
+                    } else {
                         mysql.pool.query(delUserBook, [req.body.senderID, req.body.bookID, req.body.pointsTraded], (err, result) => {
                             if (err) {
                                 console.log('error: ', err);
                                 res.send(err);
-                            } else {        
+                            } else {
                                 mysql.pool.query(getShippingAddress, req.body.receiverID, (err, result) => {
                                     if (err) {
                                         console.log('error: ', err);
                                         res.send(err);
-                                    } else {        
+                                    } else {
                                         contents.shipping = result;
-                                        res.send(contents);    
+                                        res.send(contents);
                                     }
                                 });
                             }
@@ -324,7 +325,7 @@ var hbs = require("express-handlebars").create({
                 console.log('error: ', err);
             } else {
                     contents.swaps = result;
-                    res.render('reject', contents);    
+                    res.render('reject', contents);
 
                 }
             }
@@ -346,8 +347,8 @@ var hbs = require("express-handlebars").create({
                     if (err) {
                         console.log('error: ', err);
                         res.send(err);
-                    } else {        
-                        res.send(contents);    
+                    } else {
+                        res.send(contents);
                     }
                 });
             }
