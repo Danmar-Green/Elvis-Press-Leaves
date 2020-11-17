@@ -1,0 +1,112 @@
+{{#if userID}}
+<div class="topnav">
+  <img class="logo" src="/img/logo.png">
+  <a href="/{{this.userID}}/account">Account</a>
+  <a href="/{{this.userID}}/shelf">Bookshelf</a>
+  <a class="active" href="/{{this.userID}}/manage">Manage Swaps</a>
+  <a href="/{{this.userID}}/browse">Browse</a>
+  <a href="/">Logout</a>
+</div>
+{{/if}}
+
+<div>
+    <table>
+        <thead>
+            <th><button id="pndBttn" onclick='pndClick()'>Pending Accept/Reject Swaps</button></th>
+            <th><button id="recBttn" onclick='recClick()'>Pending Received Swaps</button></th>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan='2'>
+                <div id="pndCell">
+                    {{#if swaps}}
+                    <p>Below are the pending swap requests for books in your bookshelf.</p>
+                    <p>Click the button next to the request to either accept or reject the swap</p>
+
+                    <div id="swapTable")>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Requester</th>
+                                    <th>Title</th>
+                                    <th>Author</th>
+                                    <th>Condition</th>
+                                    <th>Points</th>
+                                    <th>Date</th>
+                                    <th>Accept</th>
+                                    <th>Reject</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {{#each swaps}}
+                                <tr>
+                                    <td>{{this.reqName}}</td>
+                                    <td>{{this.title}}</td>
+                                    <td>{{this.author}}</td>
+                                    <td>{{comp this.condition}}</td>
+                                    <td>{{this.pointsTraded}}</td>
+                                    <td>{{this.swapDate}}</td>
+                                    <td><a href="/{{this.senderID}}/accept/{{this.id}}">Accept</a></td>
+                                    <td><a href="/{{this.senderID}}/reject/{{this.id}}">Reject</a></td>
+                                </tr>
+                            {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                    {{else}}
+                    <div>
+                      <p>You have no swap requests at this time.</p>
+                    </div>
+                    {{/if}}
+                </div>
+                <div id="recCell">
+                    {{#if receipt}}
+                    <p>Below are the swaps that you're waiting to receive.
+                       Please mark swaps as received to complete transfer.</p>
+                    <p>NOTE: You can mark books as never received, but this will be marked on your account.  If you mark too may books as not received, other users may not trade with you in the future.</p>
+
+                    <div id="receiptTable")>
+                         <table>
+                            <thead>
+                                <tr>
+                                    <th>Sender</th>
+                                    <th>Title</th>
+                                    <th>Author</th>
+                                    <th>Condition</th>
+                                    <th>Points</th>
+                                    <th>Date Accepted</th>
+                                    <th>Received</th>
+                                    <th>Never Received</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {{#each receipt}}
+                                <tr>
+                                    <td>{{this.senderName}}</td>
+                                    <td>{{this.title}}</td>
+                                    <td>{{this.author}}</td>
+                                    <td>{{comp this.condition}}</td>
+                                    <td>{{this.pointsTraded}}</td>
+                                    <td>{{this.swapDate}}</td>
+                                    <td><a href="/{{this.receiverID}}/received/{{this.id}}">Received</a></td>
+                                    <td><a href="/{{this.receiverID}}/notreceived/{{this.id}}">Never Received</a></td>
+                                </tr>
+                            {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                    {{else}}
+                    <div>
+                      <p>You have no swaps waiting to be received.  Once one your requests for a book has been accepted, it will appear here for receipt.</p>
+                    </div>
+                    {{/if}}
+                </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer>© Elvis Press Leaves</footer>
+
+<script src="/manage.js"></script>

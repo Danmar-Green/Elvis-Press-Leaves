@@ -3,15 +3,38 @@
   <img class="logo" src="/img/logo.png">
   <a href="/{{this.userID}}/account">Account</a>
   <a href="/{{this.userID}}/shelf">Bookshelf</a>
-  <a href="/{{this.userID}}/history">Swap History</a>
-  <a href="/{{this.userID}}/swaps">Swap Notification</a>
+  <a href="/{{this.userID}}/manage">Manage Swaps</a>
   <a href="/{{this.userID}}/browse">Browse</a>
   <a href="/">Logout</a>
 </div>
 
-<h2>{{this.username}}'s Bookshelf</h2>
+<input id="user" name="user" type="hidden" value={{this.userID}}>
 {{/if}}
 
-<h1>THIS IS A USER BOOKSHELF PAGE - UNDER CONSTRUCTION</h1>
+{{#if viewID}}
+<input id="owner" name="owner" type="hidden" value={{this.viewID}}>
+{{/if}}
+
+{{#if username}}
+<h2><span id="username">{{this.username}}</span>'s Bookshelf</h2>
+{{/if}}
+
+{{#if bookList}}
+<div class="shelf">
+  {{#each bookList}}
+    <div class="book">
+        <div class="bookDetails">
+            <p class="bookTitle"><i>{{this.title}}</i> by {{this.author}}</p>
+            <p class="bookISBN">ISBN: {{this.isbn}}</p>            
+            <p class="bookCondition">Condition: {{comp this.condition}}</p>            
+            <p class="bookPoints">Point Value: {{this.condition}}</p>
+            <button {{!-- onclick="requestBook({{this.bookID}}, {{this.condition}})" --}}>Request Book</button>
+        </div>
+    </div>
+  {{/each}}
+</div>
+{{else}}
+<p>This user currently has no books available for swapping</p>
+{{/if}}
 
 <footer>© Elvis Press Leaves</footer>
