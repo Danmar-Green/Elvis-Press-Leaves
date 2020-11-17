@@ -37,8 +37,8 @@ var hbs = require("express-handlebars").create({
 
     const newUser = 'INSERT INTO users (`username`, `email`, `password`, `firstName`, `lastName`, `street`, `city`, `state`, `zipCode`, `availablePoints`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
     const loginID = 'SELECT id FROM users WHERE username = ? AND password = ?';
-    const newBook = 'INSERT INTO books (`title`, `author`, `isbn`, `condition`) VALUES (?, ?, ?, ?)';
-    const addBookToUser = 'INSERT INTO user_books (`userID`, `bookID`, `points`) VALUES (?, ?, ?)';
+    const newBook = 'INSERT IGNORE INTO books (`title`, `author`, `isbn`, `condition`) VALUES (?, ?, ?, ?)';
+    const addBookToUser = 'INSERT INTO user_books (`userID`, `bookID`, `points`) VALUES (?, (SELECT id FROM books WHERE `title`=? AND `author`=? AND `condition`=?), ?)';
     const getUserBooks = 'SELECT tbl2.userID, s.username, tbl2.bookID, tbl2.title, tbl2.author, tbl2.isbn, tbl2.condition FROM users s INNER JOIN (SELECT u.userID, u.bookID, tbl1.title, tbl1.author, tbl1.isbn, tbl1.condition FROM user_books u INNER JOIN (SELECT * FROM books b) as tbl1 ON u.bookID = tbl1.id WHERE u.userID = ?) as tbl2 ON s.id = tbl2.userID';
     const getAllUserBooks = 'SELECT tbl2.userID, s.username, tbl2.bookID, tbl2.title, tbl2.author, tbl2.isbn, tbl2.condition FROM users s INNER JOIN (SELECT u.userID, u.bookID, tbl1.title, tbl1.author, tbl1.isbn, tbl1.condition FROM user_books u INNER JOIN (SELECT * FROM books b) as tbl1 ON u.bookID = tbl1.id) as tbl2 ON s.id = tbl2.userID';
     const getShippingAddress = 'SELECT u.firstName, u.lastName, u.street, u.city, u.state, u.zipCode FROM users u WHERE u.id = ?';
@@ -49,7 +49,7 @@ var hbs = require("express-handlebars").create({
     const updateReceived = 'UPDATE `completed_swaps` SET `received`= 1 WHERE `senderID` = ? AND `receiverID` = ? AND `bookID` = ? and `swapDate` = ?';
     const delCompSwap = 'DELETE FROM `completed_swaps` WHERE `senderID` = ? AND `receiverID` = ? AND `bookID` = ? and `swapDate` = ?';
     const delPendSwap = 'DELETE FROM `pending_swaps` WHERE id=?';
-    const delUserBook = 'DELETE FROM `user_books` WHERE `userID`=? AND `bookID`=? AND `points`=?';
+    const delUserBook = 'DELETE FROM `user_books` WHERE `userID`=? AND `bookID`=? AND `points`=? LIMIT 1';
     const addAvbPts = 'UPDATE `users` SET `availablePoints`=`availablePoints` + ? WHERE `id`=?';
     const addPndPts = 'UPDATE `users` SET `pendingPoints`=`pendingPoints` + ? WHERE `id`= ?';
     const subAvbPts = 'UPDATE `users` SET `availablePoints`=`availablePoints` - ? WHERE `id`=?';
@@ -131,7 +131,8 @@ var hbs = require("express-handlebars").create({
                 console.log('error: ', err);
             } else {
                     contents.bookList = result;
-                    console.log(result);
+                    contents.username = result[0].username;
+//                    console.log(contents);
                     res.render('shelf', contents);
             }
         });    
@@ -145,6 +146,39 @@ var hbs = require("express-handlebars").create({
     
         res.render('viewshelf', contents);
     });    
+
+    // ADD BOOK ROUTE FOR DB
+    app.post("/addbook", function(req, res, next) {
+        let contents = {};
+        contents.userID = req.body.user;        // add book to books table then add book and user to user_books table in DB
+        mysql.pool.query(newBook, [req.body.title, req.body.author, req.body.isbn, req.body.condition], (err, result) => {
+            if (err) {
+                console.log('error: ', err);
+            } else {
+                mysql.pool.query(addBookToUser, [req.body.user, req.body.title, req.body.author, req.body.condition, req.body.condition], (err, result) => {
+                    if (err) {
+                        console.log('error: ', err);
+                    } else {
+                        res.send(contents);    
+                    }
+                });
+            }
+        });
+    });
+
+    // REMOVE BOOK ROUTE FOR DB
+    app.post("/removebook", function(req, res, next) {
+        let contents = {};
+        contents.userID = req.body.user;
+        // remove book from user_books table in DB
+        mysql.pool.query(delUserBook, [req.body.user, req.body.book, req.body.pointAmt], (err, result) => {
+            if (err) {
+                console.log('error: ', err);
+            } else {
+                res.send(contents);    
+            }
+        });
+    });
 
     // USER'S SEARCH ROUTE
     app.get("/:userID/browse", function(req, res, next) {
