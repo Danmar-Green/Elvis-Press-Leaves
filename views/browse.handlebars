@@ -3,16 +3,18 @@
   <img class="logo" src="/img/logo.png">
   <a href="/{{this.userID}}/account">Account</a>
   <a href="/{{this.userID}}/shelf">Bookshelf</a>
-  <a href="/{{this.userID}}/history">Swap History</a>
-  <a href="/{{this.userID}}/swaps">Swap Notification</a>
-  <a class="action" href="/{{this.userID}}/browse">Browse</a>
+  <a href="/{{this.userID}}/manage">Manage Swaps</a>
+  <a class="active" href="/{{this.userID}}/browse">Browse</a>
   <a href="/">Logout</a>
 </div>
+
+<input id="user" name="user" type="hidden" value={{this.userID}}>
 {{/if}}
 
-<h2>Browse our Database of Millions of Swap-Ready Books, Worldwide!</h2>
+<div id="preReq">
+  <h2>Browse our Database of Millions of Swap-Ready Books, Worldwide!</h2>
 
-<p>Search for a book using any or all of the fields below.</p>
+  <p>Search for a book using any or all of the fields below.</p>
 
   <form method ="GET" action ="/browse">
     <fieldset>
@@ -57,7 +59,8 @@
           <td>{{this.isbn}}</td>
           <td>{{comp condition}}</td>
           <td>{{this.points}}</td>
-          <td><a href="/{{userID.userID}}/request/{{this.userID}}/{{this.bookID}}">SWAP!</a></td>
+{{!--             {{ckPts ../avb this.condition}}--}}            
+          <td><button {{!-- onclick="requestBook({{this.bookID}}, {{this.condition}}, {{this.username}}, {{this.userID}})" --}}>Request Book</button></td>
         </tr>
       {{/each}}
       </table>
@@ -68,7 +71,14 @@
         <div class="warnText">No Books Found :(<br><br></div>
   {{/if}}
   <br><br>
+</div>
+
+<div id="postReq">
+  {{#if username}}
+  <p><span id="confirmName"></span> has been notified of your request.  If they accept, it will appear in your pending received under Manage Swaps.  Or if they reject for any reason,, your points will be returned to you.</p>
+  {{/if}}
+</div>
 
 <footer>© Elvis Press Leaves</footer>
 
-{{!-- <script src="/browse.js"></script> --}}
+<script src="/browse.js"></script>
