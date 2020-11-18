@@ -1,3 +1,4 @@
+{{!-- Standard Nav Bar on logged in pages --}}
 {{#if userID}}
 <div class="topnav">
   <img class="logo" src="/img/logo.png">
@@ -15,6 +16,7 @@
 <h2><span id="username">{{this.username}}</span>'s Bookshelf</h2>
 {{/if}}
 
+{{!-- Load current books with helpers --}}
 {{#if bookList}}
 <div class="shelf">
   {{#each bookList}}
@@ -33,6 +35,7 @@
 <p>You have no books currently available on your bookshelf</p>
 {{/if}}
 
+{{!-- Add book modal --}}
 <div class="container-fluid">
   <div class="row mb-3">
       <div class="col text-center"><h5>Add A Book To Your Shelf</h5></div>

@@ -1,3 +1,4 @@
+{{!-- Standard Nav Bar on logged in pages --}}
 {{#if userID}}
 <div class="topnav">
   <img class="logo" src="/img/logo.png">
@@ -9,6 +10,7 @@
 </div>
 {{/if}}
 
+{{!-- Load book info and confirmation prompt --}}
 {{#each swaps}}
 <div id="neverPrompt">
     <h2>Confirm book was never received</h2>
@@ -27,11 +29,12 @@
 </div>
 {{/each}}
 
+{{!-- Message when API successfully completes --}}
 <div id="neverSuccess">
     <h2>We are sorry you never got your book! The swap points have been added back to your account for you to search for your next swap.</h2>
 </div>
 
-
+{{!-- Message if API encounters an error --}}
 <div id="neverError">
     <h2>Oops!  Something went wrong.  Try again.</h2>
 </div>

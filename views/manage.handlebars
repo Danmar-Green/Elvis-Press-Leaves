@@ -1,3 +1,4 @@
+{{!-- Standard Nav Bar on logged in pages --}}
 {{#if userID}}
 <div class="topnav">
   <img class="logo" src="/img/logo.png">
@@ -12,12 +13,14 @@
 <div>
     <table>
         <thead>
+            {{!-- Tabs for switching views between pending accept/reject and pending received --}}
             <th><button id="pndBttn" onclick='pndClick()'>Pending Accept/Reject Swaps</button></th>
             <th><button id="recBttn" onclick='recClick()'>Pending Received Swaps</button></th>
         </thead>
         <tbody>
             <tr>
                 <td colspan='2'>
+                {{!-- Pending accept/reject listing and display --}}
                 <div id="pndCell">
                     {{#if swaps}}
                     <p>Below are the pending swap requests for books in your bookshelf.</p>
@@ -59,11 +62,12 @@
                     </div>
                     {{/if}}
                 </div>
+                {{!-- Pending received listing and display --}}
                 <div id="recCell">
                     {{#if receipt}}
                     <p>Below are the swaps that you're waiting to receive.
                        Please mark swaps as received to complete transfer.</p>
-                    <p>NOTE: You can mark books as never received, but this will be marked on your account.  If you mark too may books as not received, other users may not trade with you in the future.</p>
+                    <p>NOTE: You can mark books as never received, but this will be marked on your account.  If you mark too many books as not received, other users may not trade with you in the future.</p>
 
                     <div id="receiptTable")>
                          <table>
@@ -97,7 +101,7 @@
                     </div>
                     {{else}}
                     <div>
-                      <p>You have no swaps waiting to be received.  Once one your requests for a book has been accepted, it will appear here for receipt.</p>
+                      <p>You have no swaps waiting to be received.  Once one of your requests for a book has been accepted, it will appear here for receipt.</p>
                     </div>
                     {{/if}}
                 </div>

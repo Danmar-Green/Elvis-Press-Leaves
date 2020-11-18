@@ -10,6 +10,7 @@ var express     = require("express"),
 var hbs = require("express-handlebars").create({
     defaultLayout: "main",
     helpers: {
+        // Adjusts condition displayed based on condition number from database
         comp: function(condition) {
                 if (condition == 1) {
                     return "Loved to Pieces (Rips, Water-Damage, Weak Bindings Present)";
@@ -23,6 +24,7 @@ var hbs = require("express-handlebars").create({
                     return "Fresh off the press! (New)";
                 }
         },
+        // Under construction for use comparing requester's available pts vs cost of book
         ckPts: function(avb, cost) {
             if (avb <= cost) {
                 return true;
@@ -40,7 +42,7 @@ var hbs = require("express-handlebars").create({
     app.use(bodyParser.json());
 
 
-    // SQL Queries for calling in various app.post routes
+    // SQL Queries for calling in various app.get and app.post routes
 
     const newUser = 'INSERT INTO users (`username`, `email`, `password`, `firstName`, `lastName`, `street`, `city`, `state`, `zipCode`, `availablePoints`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
     const loginID = 'SELECT id FROM users WHERE username = ? AND password = ?';
@@ -81,7 +83,7 @@ var hbs = require("express-handlebars").create({
         res.render('signup');
     });  
 
-    // LOGIN ROUTE FOR DB
+    // LOGIN POST ROUTE FOR DB
     app.post("/login", function(req, res, next) {
         let contents = {};
         // retrieve user info for login
@@ -95,14 +97,15 @@ var hbs = require("express-handlebars").create({
         });
     });
 
-    // SIGN UP ROUTE FOR DB
+    // SIGN UP POST ROUTE FOR DB
     app.post("/createUser", function(req, res, next) {
         let contents = {};
-        // retrieve user info for login
+        // create user in db
         mysql.pool.query(newUser, [req.body.username, req.body.email, req.body.password, req.body.firstName, req.body.lastName, req.body.street, req.body.city, req.body.state, req.body.zipCode, 15], (err, result) => {
             if (err) {
                 console.log('error: ', err);
             } else {
+                // retrieve user info for login
                 mysql.pool.query(loginID, [req.body.username, req.body.password], (err, result) => {
                     if (err) {
                         console.log('error: ', err);
@@ -120,6 +123,7 @@ var hbs = require("express-handlebars").create({
         let contents = {};
         contents.userID = req.params.userID;
 
+        // Get account info to send upon page load
         mysql.pool.query('SELECT * FROM users WHERE id=?', req.params.userID, (err, result) => {
             if (err) {
                 console.log('error: ', err);
@@ -136,6 +140,7 @@ var hbs = require("express-handlebars").create({
         let contents = {};
         contents.userID = req.params.userID;
 
+        // Get user's books from bookshelf to display on page load
         mysql.pool.query(getUserBooks, req.params.userID, (err, result) => {
             if (err) {
                 console.log('error: ', err);
@@ -153,6 +158,7 @@ var hbs = require("express-handlebars").create({
         contents.userID = req.params.userID;
         contents.viewID = req.params.viewID;
     
+        // Get user's books from bookshelf to display on page load
         mysql.pool.query(getUserBooks, req.params.viewID, (err, result) => {
             if (err) {
                 console.log('error: ', err);
@@ -164,14 +170,17 @@ var hbs = require("express-handlebars").create({
         });    
     });    
 
-    // ADD BOOK ROUTE FOR DB
+    // ADD BOOK POST ROUTE FOR DB
     app.post("/addbook", function(req, res, next) {
         let contents = {};
-        contents.userID = req.body.user;        // add book to books table then add book and user to user_books table in DB
+        contents.userID = req.body.user;
+
+        // add book to books table
         mysql.pool.query(newBook, [req.body.title, req.body.author, req.body.isbn, req.body.condition], (err, result) => {
             if (err) {
                 console.log('error: ', err);
             } else {
+                //  add book and user to user_books table in DB
                 mysql.pool.query(addBookToUser, [req.body.user, req.body.title, req.body.author, req.body.condition, req.body.condition], (err, result) => {
                     if (err) {
                         console.log('error: ', err);
@@ -183,7 +192,7 @@ var hbs = require("express-handlebars").create({
         });
     });
 
-    // REMOVE BOOK ROUTE FOR DB
+    // REMOVE BOOK POST ROUTE FOR DB
     app.post("/removebook", function(req, res, next) {
         let contents = {};
         contents.userID = req.body.user;
@@ -208,6 +217,7 @@ var hbs = require("express-handlebars").create({
                 console.log('error: ', err);
             } else {
                     contents.userInfo = result;
+                    // retrieve list of all availabe books for page load
                     mysql.pool.query(selectAll, (err, result) => {
                         if (err) {
                             console.log('error: ', err);
@@ -221,7 +231,7 @@ var hbs = require("express-handlebars").create({
             });
     });
 
-    // POST ROUTE FOR DB SEARCH TO RETURN SEARCH RESULTS
+    // SEARCH POST ROUTE FOR DB
     app.post("/search", function(req, res, next) {
 
         // retrieve books based on search criteria
@@ -273,15 +283,16 @@ var hbs = require("express-handlebars").create({
         }
     });
 
-    // REQUEST ROUTE FOR DB
+    // REQUEST POST ROUTE FOR DB
     app.post("/request", function(req, res, next) {
         let contents = {};
 
-        // retrieve user info for processing requests
+        // subtract available points from requestor
         mysql.pool.query(subAvbPts, [req.body.pointAmt, req.body.recipient], (err, result) => {
             if (err) {
                 console.log('error: ', err);
             } else {
+                // add pending request for sender
                 mysql.pool.query(addPending, [req.body.sender, req.body.recipient, req.body.book, req.body.pointAmt, req.body.swapDate], (err, result) => {
                     if (err) {
                         console.log('error: ', err);
@@ -295,48 +306,18 @@ var hbs = require("express-handlebars").create({
         });
     });
 
-/*     // ROUTE FOR USER'S COMPLETED SWAPS
-    app.get("/:userID/history", function(req, res, next) {
-        let contents = {};
-        contents.userID = req.params.userID;
-
-        mysql.pool.query(getPendReceipt, req.params.userID, (err, result) => {
-            if (err) {
-                console.log('error: ', err);
-            } else {
-                    contents.receipt = result;
-                    console.log(result);
-                    res.render('swaphistory', contents);
-            }
-        });    
-    });
-
-    // USER'S PENDING SWAP REQUEST PAGE
-    app.get("/:userID/swaps", function(req, res, next) {
-        let contents = {};
-        contents.userID = req.params.userID;
-        // retrieve swaps from db
-        mysql.pool.query(getPendingSwaps, req.params.userID, (err, result) => {
-                if (err) {
-                    console.log('error: ', err);
-                } else {
-                        contents.swaps = result;
-                        res.render('pendingswaps', contents);    
-                }
-            }
-        );
-    }); */
-
-    // ROUTE FOR TABBED PAGE WITH PENDING ACCEPT/REJECT AND RECEIVED
+    // ROUTE FOR TABBED PAGE WITH PENDING ACCEPT/REJECT AND PENDING RECEIVED
     app.get("/:userID/manage", function(req, res, next) {
         let contents = {};
         contents.userID = req.params.userID;
-        // retrieve swaps from db
+
+        // retrieve pending accept/reject swaps from db
         mysql.pool.query(getPendingSwaps, req.params.userID, (err, result) => {
                 if (err) {
                     console.log('error: ', err);
                 } else {
                     contents.swaps = result;
+                    // retrieve pending received swaps from db
                     mysql.pool.query(getPendReceipt, req.params.userID, (err, result) => {
                         if (err) {
                             console.log('error: ', err);
@@ -370,32 +351,36 @@ var hbs = require("express-handlebars").create({
         );
     });
 
-    // POST ACCEPTED SWAP TO DB
+    // ACCEPTED SWAP POST ROUTE TO DB
     app.post("/postAccept", function(req, res, next) {
         let contents = {};
         contents.userID = req.body.senderID;
 
-        // retrieve selected swap from db
+        // add as accepted to db
         mysql.pool.query(addAccepted, [req.body.senderID, req.body.receiverID, req.body.bookID, req.body.pointsTraded, req.body.swapDate], (err, result) => {
             if (err) {
                 console.log('error: ', err);
                 res.send(err);
             } else {
+                // delete from pending in db
                 mysql.pool.query('DELETE FROM `pending_swaps` WHERE id = ?', req.body.swapID, (err, result) => {
                     if (err) {
                         console.log('error: ', err);
                         res.send(err);
                     } else {        
+                        // delete from sender's bookshelf in db
                         mysql.pool.query(delUserBook, [req.body.senderID, req.body.bookID, req.body.pointsTraded], (err, result) => {
                             if (err) {
                                 console.log('error: ', err);
                                 res.send(err);
                             } else {        
+                                // add pending points to sender's pending account balance
                                 mysql.pool.query(addPndPts, [req.body.pointsTraded, req.body.senderID], (err, result) => {
                                     if (err) {
                                         console.log('error: ', err);
                                         res.send(err);
                                     } else {        
+                                        // get shipping information for recipient
                                         mysql.pool.query(getShippingAddress, req.body.receiverID, (err, result) => {
                                             if (err) {
                                                 console.log('error: ', err);
@@ -434,17 +419,18 @@ var hbs = require("express-handlebars").create({
         );
     });
 
-    // POST REJECTED SWAP TO DB
+    // REJECTED SWAP POST ROUTE TO DB
     app.post("/postReject", function(req, res, next) {
         let contents = {};
         contents.userID = req.body.senderID;
 
-        // retrieve selected swap from db
+        // delete pending swap from db
         mysql.pool.query(delPendSwap, req.body.swapID, (err, result) => {
             if (err) {
                 console.log('error: ', err);
                 res.send(err);
             } else {
+                // add points back to requester's available balance
                 mysql.pool.query(addAvbPts, [req.body.pointsTraded, req.body.receiverID], (err, result) => {
                     if (err) {
                         console.log('error: ', err);
@@ -474,22 +460,24 @@ var hbs = require("express-handlebars").create({
         });
     });
 
-    // POST RECEIVED SWAP TO DB
+    // RECEIVED SWAP POST ROUTE TO DB
     app.post("/postReceipt", function(req, res, next) {
         let contents = {};
         contents.userID = req.body.recipient;
 
-        // retrieve selected swap from db
+        // subtract points from sender's pending balance
         mysql.pool.query(subPndPts, [req.body.pointsTraded, req.body.sender], (err, result) => {
             if (err) {
                 console.log('error: ', err);
                 res.send(err);
             } else {
+                // add points to sender's available balance
                 mysql.pool.query(addAvbPts, [req.body.pointsTraded, req.body.sender], (err, result) => {
                     if (err) {
                         console.log('error: ', err);
                         res.send(err);
                     } else {        
+                        // update swap as received
                         mysql.pool.query(updtRec, req.body.swapID, (err, result) => {
                             if (err) {
                                 console.log('error: ', err);
@@ -522,37 +510,42 @@ var hbs = require("express-handlebars").create({
         });
     });
 
-    // POST NEVER RECEIVED SWAP TO DB
+    // NEVER RECEIVED SWAP POST ROUTE TO DB
     app.post("/postNever", function(req, res, next) {
         let contents = {};
         contents.userID = req.body.recipient;
 
-        // retrieve selected swap from db
+        // subtract pending points from sender's pending balance
         mysql.pool.query(subPndPts, [req.body.pointsTraded, req.body.sender], (err, result) => {
             if (err) {
                 console.log('error: ', err);
                 res.send(err);
             } else {
+                // add available points back to recipient's available balance
                 mysql.pool.query(addAvbPts, [req.body.pointsTraded, req.body.recipient], (err, result) => {
                     if (err) {
                         console.log('error: ', err);
                         res.send(err);
                     } else {        
+                        // add book back to sender's bookshelf
                         mysql.pool.query(addBookBack, [req.body.sender, req.body.book, req.body.pointsTraded], (err, result) => {
                             if (err) {
                                 console.log('error: ', err);
                                 res.send(err);
                             } else {        
+                                // mark never received +1 on recipient's account
                                 mysql.pool.query(nevRec, req.body.recipient, (err, result) => {
                                     if (err) {
                                         console.log('error: ', err);
                                         res.send(err);
                                     } else {        
+                                        // mark never sent +1 on sender's account
                                         mysql.pool.query(nevSent, req.body.sender, (err, result) => {
                                             if (err) {
                                                 console.log('error: ', err);
                                                 res.send(err);
                                             } else {        
+                                                // delete swap from swap history
                                                 mysql.pool.query(delCompSwap, req.body.swapID, (err, result) => {
                                                     if (err) {
                                                         console.log('error: ', err);
@@ -588,5 +581,5 @@ var hbs = require("express-handlebars").create({
     });
 
     app.listen(port, function(){
-        console.log(`Express started on http://${process.env.HOSTNAME}:9229; press Ctrl-C to terminate.`);
+        console.log(`Express started on the above selected port http://${process.env.HOSTNAME}:9229; press Ctrl-C to terminate.`);
     });

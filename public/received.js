@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', findSelect);
 
+// Check which receive option is being selected - received or never received
 function findSelect() {
     var rec = document.getElementById('receiveSwap');
     var nev = document.getElementById('neverSwap');
@@ -8,11 +9,13 @@ function findSelect() {
     var recErr = document.getElementById('receiptError');
     var nevErr = document.getElementById('neverError');
 
+// If on received page, load received API function and hide areas not intended for initial page load
     if (rec) {
         hideSuccess(recSuccess);
         hideError(recErr);
         receiveSwap(rec);
     } else {
+// If on never received page, load never received API function and hide areas not intended for initial page load
         hideSuccess(nevSuccess);
         hideError(nevErr);
         neverSwap(nev);

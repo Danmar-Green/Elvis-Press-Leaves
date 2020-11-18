@@ -1,3 +1,4 @@
+{{!-- Standard Nav Bar on logged in pages --}}
 {{#if userID}}
 <div class="topnav">
   <img class="logo" src="/img/logo.png">
@@ -26,11 +27,12 @@
           <th>Zip Code</th>
           <th>Available Points</th>
           <th>Pending Points</th>
-{{!--     <th>Completed Swaps</th>
-          <th>Pending Swaps</th>
- --}}   </tr>
+          <th>Books Not Sent</th>
+          <th>Books Not Received</th>
+        </tr>
       </thead>
       <tbody>
+        {{!-- Load user's account info with helpers --}}
         {{#if userInfo}}
         {{#each userInfo}}
           <tr>
@@ -43,19 +45,21 @@
             <td>{{zipCode}}</td>
             <td>{{availablePoints}}</td>
             <td>{{pendingPoints}}</td>
-{{!--             <td>{{this.complSwap}}</td>
-            <td>{{this.pendSwap}}</td>
- --}}          </tr>
+            <td>{{notSent}}</td>
+            <td>{{notReceived}}</td>
+          </tr>
         {{/each}}
       </tbody>
     </table>
 </div>
+    {{!-- Warning if no account information found --}}
     {{else}}
         <div class="warnText">No User Account Information Available<br><br>
         </div>
     {{/if}}
   </div>
 
+{{!-- Update fields for account info --}}
 <p>Update Your Account Information Here:</p>
 
 <form method = "post">

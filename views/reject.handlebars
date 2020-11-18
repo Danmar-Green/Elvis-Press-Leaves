@@ -1,3 +1,4 @@
+{{!-- Standard Nav Bar on logged in pages --}}
 {{#if userID}}
 <div class="topnav">
   <img class="logo" src="/img/logo.png">
@@ -9,6 +10,7 @@
 </div>
 {{/if}}
 
+{{!-- Load book info and confirmation prompt --}}
 {{#each swaps}}
 <div id="rejectPrompt">
     <h2>Confirm Swap Rejection</h2>
@@ -29,11 +31,12 @@
 </div>
 {{/each}}
 
+{{!-- Message for when API successfully finishes --}}
 <div id="rejectSuccess">
     <h2>Swap Rejected!  This swap will no longer show as pending in your pending swaps list.</h2>
 </div>
 
-
+{{!-- Message for when API encounters error --}}
 <div id="rejectError">
     <h2>Oops!  Something went wrong.  Try again.</h2>
 </div>

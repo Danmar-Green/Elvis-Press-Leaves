@@ -1,3 +1,4 @@
+{{!-- Standard Nav Bar on logged in pages --}}
 {{#if userID}}
 <div class="topnav">
   <img class="logo" src="/img/logo.png">
@@ -9,6 +10,7 @@
 </div>
 {{/if}}
 
+{{!-- Load swap information from helpers --}}
 {{#each swaps}}
 <div id="acceptPrompt">
     <h2>Confirm Acceptance</h2>
@@ -27,6 +29,7 @@
 </div>
 {{/each}}
 
+{{!-- Success message with recipient's mailing address when swap has been accepted --}}
 <div id="acceptSuccess">
     <h2>Congratulations!  Once <span id="recipientName"></span> has received your book, the points will be added to your account!</h2>
 
@@ -36,7 +39,7 @@
     <p id="mailingState"></p>
 </div>
 
-
+{{!-- Standard error message --}}
 <div id="acceptError">
     <h2>Oops!  Something went wrong.  Try again.</h2>
 </div>
