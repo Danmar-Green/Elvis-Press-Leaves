@@ -1,7 +1,7 @@
 function deleteBook(bookID, points) {
     var req = new XMLHttpRequest();
         
-    // Create JSON data to send with new user info and no id set
+    // Create JSON data to send with book info
     var delBookData = {
         user : document.getElementById("user").value,
         book : bookID,
@@ -33,7 +33,7 @@ function addBook() {
     } else {
         var req = new XMLHttpRequest();
         
-        // Create JSON data to send with new user info and no id set
+        // Create JSON data to send with book info
         var newBookData = {
             user : document.getElementById("user").value,
             title : document.getElementById("book_name").value,

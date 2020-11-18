@@ -15,26 +15,37 @@
 <input id="owner" name="owner" type="hidden" value={{this.viewID}}>
 {{/if}}
 
-{{#if username}}
-<h2><span id="username">{{this.username}}</span>'s Bookshelf</h2>
-{{/if}}
+<div id="preReq">
+  {{#if username}}
+  <h2><span id="username">{{this.username}}</span>'s Bookshelf</h2>
+  {{/if}}
 
-{{#if bookList}}
-<div class="shelf">
-  {{#each bookList}}
-    <div class="book">
+  {{#if bookList}}
+  <div class="shelf">
+    {{#each bookList}}
+      <div class="book">
         <div class="bookDetails">
             <p class="bookTitle"><i>{{this.title}}</i> by {{this.author}}</p>
             <p class="bookISBN">ISBN: {{this.isbn}}</p>            
             <p class="bookCondition">Condition: {{comp this.condition}}</p>            
             <p class="bookPoints">Point Value: {{this.condition}}</p>
-            <button {{!-- onclick="requestBook({{this.bookID}}, {{this.condition}})" --}}>Request Book</button>
+{{!--             {{ckPts ../avb this.condition}}--}}            
+            <button {{!-- onclick="requestBook({{this.bookID}}, {{this.condition}}, {{this.username}}, {{this.userID}})" --}}>Request Book</button>
         </div>
-    </div>
-  {{/each}}
+      </div>
+    {{/each}}
+  </div>
+  {{else}}
+  <p>This user currently has no books available for swapping</p>
+  {{/if}}
 </div>
-{{else}}
-<p>This user currently has no books available for swapping</p>
-{{/if}}
+
+<div id="postReq">
+  {{#if username}}
+  <p><span id="confirmName"></span> has been notified of your request.  If they accept, it will appear in your pending received under Manage Swaps.  Or if they reject for any reason,, your points will be returned to you.</p>
+  {{/if}}
+</div>
 
 <footer>© Elvis Press Leaves</footer>
+
+<script src="/browse.js"></script>

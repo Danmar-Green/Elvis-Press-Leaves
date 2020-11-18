@@ -23,6 +23,13 @@ var hbs = require("express-handlebars").create({
                     return "Fresh off the press! (New)";
                 }
         },
+        ckPts: function(avb, cost) {
+            if (avb <= cost) {
+                return true;
+            } else {
+                return false;
+            }
+        },
     },
 });
 
@@ -264,6 +271,28 @@ var hbs = require("express-handlebars").create({
                 }
             });        
         }
+    });
+
+    // REQUEST ROUTE FOR DB
+    app.post("/request", function(req, res, next) {
+        let contents = {};
+
+        // retrieve user info for processing requests
+        mysql.pool.query(subAvbPts, [req.body.pointAmt, req.body.recipient], (err, result) => {
+            if (err) {
+                console.log('error: ', err);
+            } else {
+                mysql.pool.query(addPending, [req.body.sender, req.body.recipient, req.body.book, req.body.pointAmt, req.body.swapDate], (err, result) => {
+                    if (err) {
+                        console.log('error: ', err);
+                    } else {
+                            contents.request = result;
+                            console.log(result);
+                            res.render('browse', contents);    
+                    }
+                });    
+            }
+        });
     });
 
 /*     // ROUTE FOR USER'S COMPLETED SWAPS
