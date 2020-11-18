@@ -1,3 +1,4 @@
+{{!-- Standard Nav Bar on logged in pages --}}
 {{#if userID}}
 <div class="topnav">
   <img class="logo" src="/img/logo.png">
@@ -9,6 +10,7 @@
 </div>
 {{/if}}
 
+{{!-- Load book info and confirmation prompt --}}
 {{#each swaps}}
 <div id="receiptPrompt">
     <h2>Confirm Receipt</h2>
@@ -26,11 +28,12 @@
 </div>
 {{/each}}
 
+{{!-- Message for when API successfully finishes --}}
 <div id="receiptSuccess">
     <h2>CONGRATULATIONS AND ENJOY YOUR BOOK!</h2>
 </div>
 
-
+{{!-- Message for when API encounters an erro --}}
 <div id="receiptError">
     <h2>Oops!  Something went wrong.  Try again.</h2>
 </div>

@@ -1,3 +1,4 @@
+{{!-- Standard Nav Bar on logged in pages --}}
 {{#if userID}}
 <div class="topnav">
   <img class="logo" src="/img/logo.png">
@@ -39,6 +40,7 @@
     </fieldset>
   </form>
 
+{{!-- Load list of all available books from Database --}}
   {{#if bookList}}
     <h3>Swap Ready Books! -- </h3>
       <table>
@@ -59,7 +61,7 @@
           <td>{{this.isbn}}</td>
           <td>{{comp condition}}</td>
           <td>{{this.points}}</td>
-{{!--             {{ckPts ../avb this.condition}}--}}            
+{{!-- POTENTIAL NEW HELPER UNDER CONSTRUCTION - {{ckPts ../avb this.condition}}--}}            
           <td><button {{!-- onclick="requestBook({{this.bookID}}, {{this.condition}}, {{this.username}}, {{this.userID}})" --}}>Request Book</button></td>
         </tr>
       {{/each}}

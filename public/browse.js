@@ -9,6 +9,7 @@ var month = today.getMonth()+1;
 var year = today.getFullYear();
 var dateFormat = year + "-" + month + "-" + day
 
+// Send a pending request in database
 function requestBook(bk, pts, usrnm, uid) {
     var req = new XMLHttpRequest();
             
@@ -25,6 +26,7 @@ function requestBook(bk, pts, usrnm, uid) {
     req.setRequestHeader('Content-Type', 'application/json');
     req.addEventListener('load',function(){
          if(req.status >= 200 && req.status < 400){
+            // Display confirmation of request
             document.getElementById("confirmName").textContent = usrnm;
             pageDiv.style.display = "none";
             confirmDiv.style.display = "block";

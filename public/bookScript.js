@@ -1,3 +1,4 @@
+// Deletes book from user's bookshelf
 function deleteBook(bookID, points) {
     var req = new XMLHttpRequest();
         
@@ -18,6 +19,7 @@ function deleteBook(bookID, points) {
     req.send(JSON.stringify(delBookData));
 }
 
+// Adds a book to database books if needed and then to user's bookshelf
 function addBook() {
     var checkTitle = document.getElementById("book_name").value;
     var checkAuthor = document.getElementById("book_author").value;
@@ -27,6 +29,7 @@ function addBook() {
         checkISBN = null;
     } 
 
+    // If required fields weren't entered, don't send to database query
     if (checkTitle == "" || checkAuthor == "") {
         console.log("no data entered");
         return false;

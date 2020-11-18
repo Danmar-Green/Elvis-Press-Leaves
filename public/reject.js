@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', rejectSwap);
 
+// Hide areas not intended for inital page load
 hideSuccess()
 hideError();
 hideValues();
@@ -49,7 +50,7 @@ function rejectSwap(){
         };
         req.open("POST", "/postReject", true);
         req.setRequestHeader('Content-Type', 'application/json');
-        // Show recipient info or error message
+        // Show confirmation or error message
         req.addEventListener('load',function(){
             if(req.status >= 200 && req.status < 400){
                 showSuccess();
