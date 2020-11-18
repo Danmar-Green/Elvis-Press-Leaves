@@ -72,6 +72,7 @@ var hbs = require("express-handlebars").create({
     const searchAll = 'SELECT tbl2.userID, u.username, tbl2.bookID, tbl2.title, tbl2.author, tbl2.isbn, tbl2.condition, tbl2.points FROM users u INNER JOIN (SELECT ub1.userID, ub1.bookID, tbl1.title, tbl1.author, tbl1.isbn, tbl1.condition, ub1.points FROM user_books ub1 INNER JOIN (SELECT * FROM `books` WHERE title=? OR author=?) as tbl1 ON ub1.bookID=tbl1.id) as tbl2 ON u.id=tbl2.userID';
     const nevRec = 'UPDATE `users` SET `notReceived`=`notReceived` + 1 WHERE `id`= ?';
     const nevSent = 'UPDATE `users` SET `notSent`=`notSent` + 1 WHERE `id`= ?';
+    const swapHistory = 'SELECT tbl4.senderID, tbl4.senderName, tbl4.receiverID, u3.username AS reqName, tbl4.bookID, tbl4.title, tbl4.author, tbl4.isbn, tbl4.condition, tbl4.pointsTraded, tbl4.swapDate, tbl4.received from users u3 INNER JOIN (SELECT tbl3.senderID, u2.username AS senderName, tbl3.receiverID, tbl3.bookID, tbl3.title, tbl3.author, tbl3.isbn, tbl3.condition, tbl3.pointsTraded, tbl3.swapDate, tbl3.received from users u2 INNER JOIN (SELECT tbl2.senderID, u1.username, tbl2.receiverID, tbl2.bookID, tbl2.title, tbl2.author, tbl2.isbn, tbl2.condition, tbl2.pointsTraded, tbl2.swapDate, tbl2.received from users u1 INNER JOIN (SELECT c.senderID, c.receiverID, c.bookID, tbl1.title, tbl1.author, tbl1.isbn, tbl1.condition, c.pointsTraded, c.swapDate, c.received FROM completed_swaps c INNER JOIN (SELECT * FROM books) as tbl1 ON c.bookID = tbl1.id WHERE c.senderID = ? or c.receiverID = ?) as tbl2 ON u1.id = tbl2.senderID) as tbl3 ON u2.id = tbl3.senderID) as tbl4 ON u3.id=tbl4.receiverID';
 
     // ROOT ROUTE
     app.get("/", function(req, res, next){
@@ -128,9 +129,17 @@ var hbs = require("express-handlebars").create({
             if (err) {
                 console.log('error: ', err);
             } else {
-                    contents.userInfo = result;
-                    console.log(result);
-                    res.render('account', contents);
+                contents.userInfo = result;
+                console.log(result);
+                mysql.pool.query(swapHistory, [req.params.userID, req.params.userID], (err, result) => {
+                    if (err) {
+                        console.log('error: ', err);
+                    } else {
+                            contents.history = result;
+                            console.log(result);
+                            res.render('account', contents);
+                    }
+                });    
             }
         });    
     });
