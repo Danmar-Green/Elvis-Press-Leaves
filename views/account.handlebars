@@ -51,26 +51,62 @@
          --}}
               </thead>
               <thead>
+
                   {{#if userInfo}}
                   {{#each userInfo}}
 
-                      <td>{{username}}</td>
-                      <td>{{firstName}}</td>
-                      <td>{{lastName}}</td>
-                      <td>{{street}}</td>
-                      <td>{{city}}</td>
-                      <td>{{state}}</td>
-                      <td>{{zipCode}}</td>
-                      <td>{{availablePoints}}</td>
-                      <td>{{pendingPoints}}</td>
+                      <td id="Acc-info-field">{{username}}</td>
+                      <td id="Acc-info-field">{{firstName}}</td>
+                      <td id="Acc-info-field">{{lastName}}</td>
+                      <td id="Acc-info-field">{{street}}</td>
+                      <td id="Acc-info-field">{{city}}</td>
+                      <td id="Acc-info-field">{{state}}</td>
+                      <td id="Acc-info-field">{{zipCode}}</td>
+                      <td id="Acc-info-field">{{availablePoints}}</td>
+                      <td id="Acc-info-field">{{pendingPoints}}</td>
           {{!--             <td>{{this.complSwap}}</td>
                       <td>{{this.pendSwap}}</td>
            --}}
                   {{/each}}
               <thead>
         </table>
-    </div>
 
+    </div>
+    <div id="account-update-form">
+      <form method = "post">
+          {{#if userInfo}}
+              {{#each userInfo}}
+                    <fieldset >
+                        <legend>Edit Profile Information:</legend>
+                        <label hidden>
+                            <input type ="text" name ="usrnm" value="{{this.username}}">
+                        </label>
+                        <label id="update-fields">
+                            <input type ="text" name ="firstName" value="{{this.firstName}}">
+                        </label>
+                        <label id="update-fields">
+                            <input type ="text" name ="lastName" value="{{lastName}}">
+                        </label>
+                        <label id="update-fields">
+                            <input type ="text" name ="steet" value="{{street}}">
+                        </label>
+                        <label id="update-fields">
+                            <input type ="text" name ="city" value="{{city}}">
+                        </label>
+                        <label id="update-fields">
+                            <input type ="text" name ="state" value="{{state}}">
+                        </label>
+                        <label id="update-fields">
+                            <input type ="text" name ="zipCode" value="{{zipCode}}">
+                        </label>
+
+                        <p><input type="Submit" name="accountUpdate" id="accountUpdate" value="Save Update"></p>
+                    </fieldset>
+                      <p></p>
+                {{/each}}
+            {{/if}}
+       </form>
+    </div>
     <div id="header-table-3" style="display: none;">
         <h1>THIS IS A SWAP HISTORY PAGE WHERE USERS WILL RECEIVE SWAPS - UNDER CONSTRUCTION</h1>
     </div>
@@ -85,25 +121,6 @@
         </div>
     {{/if}}
   </div>
-
-<p>Edit Profile Information:</p>
-<div class="SignUp-container">
-			<form action="storeAccountInfo" method="POST">
-        <input class= "box" type="text" name="firstName" placeholder="First Name" required>
-        <input class= "box" type="text" name="lastName" placeholder="Last Name" required>
-				<input class= "box" type="text" name="username" placeholder="Username" required>
-				<input class= "box" type="text" name="email" placeholder="Email" required>
-        <input class= "box" type="text" name="address" placeholder="Address" required>
-        <input class= "box" type="text" name="city" placeholder="City" required>
-				<input class= "box" type="text" name="state" placeholder="State" required>
-        <input class= "box" type="text" name="street" placeholder="Street" required>
-        <input class= "box" type="text" name="zipCode" placeholder="Zip Code" required>
-				<input class= "box"type="password" name="password" placeholder="Password" required>
-				<input class= "box3" type="submit" value="Save Update">
-			</form>
-
-</div>
-
 
 <footer>© Elvis Press Leaves</footer>
 <script src="/account.js" charset="utf-8" defer></script>

@@ -38,6 +38,9 @@ body
   left:14px;
   width: 50%;
 }
+#Acc-info-field{
+  font-weight: normal;
+}
 #inner-table{
   position: relative;
   left:7px;
@@ -60,4 +63,18 @@ background-color: #fbc97f;
 
 }
 
+#account-update-form{
+  position: relative;
+  top:10px;
+}
+#accountUpdate{
+  background-color: #66ff66;
+}
+#update-fields input{
+  width: auto;
+}
+footer{
+  position: fixed;
+  botton: 0px;
+}
 /*account page styling by Danmar*/
