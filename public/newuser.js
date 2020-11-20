@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', newUser);
 
-// Hide area not intended for inital page load
 hideError();
 
 function hideError() {
@@ -34,8 +33,7 @@ function newUser(){
         req.setRequestHeader('Content-Type', 'application/json');
         req.addEventListener('load',function(){
             if(req.status >= 200 && req.status < 400){
-                var response = JSON.parse(req.responseText);
-                // If successful, load new user's account page
+              var response = JSON.parse(req.responseText);
                 var user = response.userInfo[0].id;
                 var link = "/" + user + "/account";
                 window.location.href = link;                

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+    <title>Add Book</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/1e77617bd7.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: transparent;" >
+  <a class="navbar-brand" href="#"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#"><span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="index.html">Account</a>
+      </li>
+    </ul>
+    <span class="navbar-text">
+      Book Swap
+    </span>
+  </div>
+</nav>
+<body>
+<div class="container-fluid">
+    <div class="row mb-3">
+        <div class="col text-center"><h1>Book List</h1></div>
+    </div>
+<div class="container-fluid">
+    <div class="row mb-3">
+        <div class="col text-center"><h5>Edit, Select, Delete</h5></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col text-left">
+			<button id="checkOutBooks" class="btn btn-success">Check Out</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-uppercase">Title</th>
+                    <th scope="col" class="text-uppercase">Author</th>
+                    <th scope="col" class="text-uppercase">Points</th>
+                    <th scope="col" class="text-uppercase">ISBN</th>
+                    <th scope="col" class="text-uppercase">Condition</th>
+                    <th scope="col"><i class="far fa-edit fa-2x"></i></th>
+                    <th scope="col"><i class="far fa-check-square fa-2x"></i></th>
+                    <th scope="col"><i class="far fa-trash-alt fa-2x"></i></th>
+                </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

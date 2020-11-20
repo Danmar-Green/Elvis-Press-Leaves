@@ -32,3 +32,54 @@ body
 	width: 350px; padding: 20px;
 
 }
+/*account page styling by Danmar*/
+#userAcctInfo{
+  position: relative;
+  left:14px;
+  width: 50%;
+}
+#Acc-info-field{
+  font-weight: normal;
+}
+#inner-table{
+  position: relative;
+  left:7px;
+  width: 98%;
+
+}
+#header-table-3-inner{
+position: relative;
+width: 10%;
+
+}
+#User-Profile{
+  background-color: #fbc97f;
+  position: relative;
+  left:-3px;
+    width: 98%;
+  height: 30px;
+}
+#Swap-History{
+background-color: #fbc97f;
+  position: relative;
+  left:5px;
+  width: 98%;
+  height: 30px;
+
+}
+
+#account-update-form{
+  position: relative;
+  top:10px;
+}
+#accountUpdate{
+  background-color: #66ff66;
+}
+#update-fields input{
+  width: auto;
+}
+footer{
+  position: fixed;
+  botton: 0px;
+}
+/*account page styling by Danmar*/

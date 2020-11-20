@@ -1,11 +1,9 @@
 document.addEventListener('DOMContentLoaded', acceptSwap);
 
-// Hide areas not intended for initial page load
 hideSuccess()
 hideError();
 hideValues();
 
-// Create a variable with the current date
 var today = new Date();
 var day = today.getDate();
 var month = today.getMonth()+1;
@@ -14,6 +12,7 @@ var dateFormat = year + "-" + month + "-" + day
 
 function hidePrompt() {
     var prompt = document.getElementById('acceptPrompt');
+
     prompt.style.display = "none";
 }
 
@@ -62,8 +61,6 @@ function acceptSwap(){
         req.addEventListener('load',function(){
             if(req.status >= 200 && req.status < 400){
                 var response = JSON.parse(req.responseText);
-
-                // Add receiving user's mailing info
                 var spanID = document.getElementById("recipientName");
                 var mail1 = document.getElementById("mailingName");
                 var mail2 = document.getElementById("mailingStreet");
@@ -73,7 +70,6 @@ function acceptSwap(){
                 mail1.textContent = response.shipping[0].firstName + " " + response.shipping[0].lastName;
                 mail2.textContent = response.shipping[0].street;
                 mail3.textContent = response.shipping[0].city +  ", "  + response.shipping[0].state + ", " + response.shipping[0].zipCode;
-
                 showSuccess();
             }
             else {
