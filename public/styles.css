@@ -149,18 +149,18 @@ h2 {
 
 /*How to embed logo, found: https://stackoverflow.com/questions/30624709/css-html-navigation-and-logo-on-same-line*/
 .navigation-bar {
-    width: 100%;  /* i'm assuming full width */
-    height: 80px; /* change it to desired width */
+    width: 100%;  /* assuming full width */
+    height: 100px; /* change it to desired width */
     background-color: black; /* change to desired color */
 }
 
 .logo {
-    display: inline-block;
+    float: right;
     vertical-align: top;
-    width: 100px;
-    height: 50px;
+    width: 200px;
+    height: 65px;
     margin-right: 20px;
-    margin-top: 15px;    /* if you want it vertically middle of the navbar. */
+    margin-top: 1px;    /* if you want it vertically middle of the navbar. */
 }
 
 .navigation-bar > a {
@@ -179,5 +179,4 @@ body
 .wrapper
 {
 	width: 350px; padding: 20px;
-
 }
