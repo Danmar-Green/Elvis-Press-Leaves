@@ -145,3 +145,47 @@ h2 {
 .container-fluid {
   padding-top: 3%;
 }
+
+
+/*How to embed logo, found: https://stackoverflow.com/questions/30624709/css-html-navigation-and-logo-on-same-line*/
+.navigation-bar {
+    width: 100%;  /* assuming full width */
+    height: 100px; /* change it to desired width */
+    background-color: black; /* change to desired color */
+}
+
+.logo {
+    float: right;
+    vertical-align: top;
+    width: 200px;
+    height: 65px;
+    margin-right: 20px;
+    margin-top: 1px;    /* if you want it vertically middle of the navbar. */
+}
+
+.navigation-bar > a {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 20px;
+    height: 80px;        /* if you want it to take the full height of the bar */
+    line-height: 80px;    /* if you want it vertically middle of the navbar */
+}
+
+body
+{
+	font: 14px sans-serif;
+}
+
+.wrapper
+{
+	width: 350px; padding: 20px;
+}
+
+form { 
+  margin: 0 auto;
+  width: 500px;
+}
+
+.searchprompt { 
+  text-align:center;
+}
