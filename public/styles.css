@@ -23,9 +23,8 @@ body {
 }
 
 .topnav a.active { 
-  background-color: #dddddd;
-  color: darkgreen;
-  font-weight: bold;
+  background-color: #ddd;
+  color: black;
 }
 
 img {
@@ -108,10 +107,9 @@ background-color: #dddddd;
 
 footer {
 left: 45%;
-bottom: 0%;
+bottom: 0;
 color: darkgreen;
 text-align: center;
-padding-top: 3%;
 }
 
 #returningUser {
