@@ -24,15 +24,14 @@
 
   {{#if bookList}}
   <div class="shelf">
-    {{#each bookList}}
+    {{#each bookList as |bk|}}
       <div class="book">
         <div class="bookDetails">
-            <p class="bookTitle"><i>{{this.title}}</i> by {{this.author}}</p>
-            <p class="bookISBN">ISBN: {{this.isbn}}</p>            
-            <p class="bookCondition">Condition: {{comp this.condition}}</p>            
-            <p class="bookPoints">Point Value: {{this.condition}}</p>
-{{!-- POTENTIAL HELPER UNDER CONSTRUCTION - {{ckPts ../avb this.condition}}--}}            
-            <button {{!-- onclick="requestBook({{this.bookID}}, {{this.condition}}, {{this.username}}, {{this.userID}})" --}}>Request Book</button>
+            <p class="bookTitle"><i>{{bk.title}}</i> by {{bk.author}}</p>
+            <p class="bookISBN">ISBN: {{bk.isbn}}</p>            
+            <p class="bookCondition">Condition: {{comp bk.condition}}</p>            
+            <p class="bookPoints">Point Value: {{bk.condition}}</p>
+            <button><a href="/{{@root.userID}}/request_book/{{bk.userID}}/{{bk.bookID}}">Request Book</a></button>
         </div>
       </div>
     {{/each}}
@@ -42,12 +41,4 @@
   {{/if}}
 </div>
 
-<div id="postReq">
-  {{#if username}}
-  <p><span id="confirmName"></span> has been notified of your request.  If they accept, it will appear in your pending received under Manage Swaps.  Or if they reject for any reason,, your points will be returned to you.</p>
-  {{/if}}
-</div>
-
 <footer>© Elvis Press Leaves</footer>
-
-<script src="/browse.js"></script>

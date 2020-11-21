@@ -1,13 +1,9 @@
-<img src="img/banner.png" alt="how to use the website"/>
+<img id="howToImg" class="home" src="img/banner.png" alt="how to use the website"/>
 
-<p>Build a bookshelf of books to trade to other users in exchange for points that you can use to get more books!</p>
-<p>The only cost is shipping when you're sending a book.</p>
-<p>It's completely up to you whether you keep the book you receive or if you put it up for trading after you're done.
-   Every user gets a few points to get them started and then you get more when you've successfully traded a book.
-</p>
+<h1 class="home">Welcome to Page Peddlers</h1>
 
 {{!-- Existing user login --}}
-<form id="returningUser">
+<form id="returningUser" class="home">
   <fieldset>
     <legend>Complete the below fields to login to an existing account</legend>
     <br>
@@ -29,12 +25,21 @@
 
 {{!-- No account error --}}
 <div id="noUser">
-    <h2>No account found.  Double check your password and try again.</h2>
+    <h2 class="home">No account found.  Double check your password and try again.</h2>
 </div>
 
 {{!-- General database error --}}
-<div id="loginError">
+<div id="loginError" class="home">
     <h2>Oops!  Something went wrong.  Try again.</h2>
+</div>
+
+<div>
+  <h3 class="home">How Page Peddlers Works:</h3>
+  <p class="home">Build a bookshelf of books to trade to other users in exchange for points that you can use to get more books!</p>
+  <p class="home">The only cost is shipping when you're sending a book.</p>
+  <p class="home">It's completely up to you whether you keep the book you receive or if you put it up for trading after you're done.
+     Every user gets a few points to get them started and then you get more when you've successfully traded a book.
+  </p>
 </div>
 
 <footer>© Elvis Press Leaves</footer>

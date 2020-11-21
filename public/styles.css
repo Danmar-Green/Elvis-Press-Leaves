@@ -114,12 +114,11 @@ text-align: center;
 padding-top: 3%;
 }
 
-.home {
-text-align: center;
-}
-
 #returningUser {
   padding-bottom: 2%;
+  border: 2px double #000000;
+  max-width: 40%;
+  margin-left: 30%;
 }
 
 div.book {
@@ -144,4 +143,14 @@ h2 {
 
 .container-fluid {
   padding-top: 3%;
+}
+
+.home {
+  align-content: center;
+  text-align: center;
+}
+
+.reqDiv {
+  padding-top: 2%;
+  margin-left: 5%;
 }

@@ -1,0 +1,50 @@
+{{!-- Standard Nav Bar on logged in pages --}}
+{{#if userID}}
+<div class="topnav">
+  <img class="logo" src="/img/logo.png">
+  <a class="active" href="/{{this.userID}}/account">Account</a>
+  <a href="/{{this.userID}}/shelf">Bookshelf</a>
+  <a href="/{{this.userID}}/manage">Manage Swaps</a>
+  <a href="/{{this.userID}}/browse">Browse</a>
+  <a href="/">Logout</a>
+</div>
+
+ <input id="user" name="user" type="hidden" value={{this.userID}}>
+{{/if}}
+
+<h1>Request:</h1>
+{{#each book as |bk|}}
+{{#each @root.userInfo as |usr|}}
+<div id="proceed" style="display: {{cmpPts usr.availablePoints bk.condition}}" class="reqDiv">
+{{/each}}
+ <p>Confirm your selection:</p>
+ <p>{{bk.title}} by {{bk.author}}</p>
+ <p>Condition: {{comp bk.condition}}</p>
+ <p>Points: {{bk.condition}}</p>
+ <p>Requesting from: {{bk.username}}</p>
+ <br>
+ <button id="confirmReq">Confirm Request</button>
+
+ <input id="sender" name="sender" type="hidden" value={{bk.userID}}>
+ <input id="book" name="book" type="hidden" value={{bk.bookID}}>
+ <input id="pts" name="pts" type="hidden" value={{bk.condition}}>
+</div>
+{{/each}}
+
+<div id="blocked" style="display: none" class="reqDiv">
+ <p>Oops!  It looks like you don't have enough points. Your point balance is {{#each userInfo}}{{this.availablePoints}}{{/each}}.</p>
+</div>
+
+{{!-- Message for when API successfully finishes --}}
+<div id="requestSuccess" style="display: none" class="reqDiv">
+    <h2>Your request has been processed!  If <span id="ownerName"></span> accepts your request, it will appear in your pending received.</h2>
+</div>
+
+{{!-- Message for when API encounters error --}}
+<div id="requestError" style="display: none" class="reqDiv">
+    <h2>Oops!  Something went wrong.  Try again.</h2>
+</div>
+
+<footer>© Elvis Press Leaves</footer>
+
+<script src="/request.js"></script>
