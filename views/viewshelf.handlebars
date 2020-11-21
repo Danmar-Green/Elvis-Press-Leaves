@@ -1,0 +1,44 @@
+{{!-- Standard Nav Bar on logged in pages --}}
+{{#if userID}}
+<div class="topnav">
+  <img class="logo" src="/img/logo.png">
+  <a href="/{{this.userID}}/account">Account</a>
+  <a href="/{{this.userID}}/shelf">Bookshelf</a>
+  <a href="/{{this.userID}}/manage">Manage Swaps</a>
+  <a href="/{{this.userID}}/browse">Browse</a>
+  <a href="/">Logout</a>
+</div>
+
+<input id="user" name="user" type="hidden" value={{this.userID}}>
+{{/if}}
+
+{{#if viewID}}
+<input id="owner" name="owner" type="hidden" value={{this.viewID}}>
+{{/if}}
+
+{{!-- Display another user's bookshelf --}}
+<div id="preReq">
+  {{#if username}}
+  <h2><span id="username">{{this.username}}</span>'s Bookshelf</h2>
+  {{/if}}
+
+  {{#if bookList}}
+  <div class="shelf">
+    {{#each bookList as |bk|}}
+      <div class="book">
+        <div class="bookDetails">
+            <p class="bookTitle"><i>{{bk.title}}</i> by {{bk.author}}</p>
+            <p class="bookISBN">ISBN: {{bk.isbn}}</p>            
+            <p class="bookCondition">Condition: {{comp bk.condition}}</p>            
+            <p class="bookPoints">Point Value: {{bk.condition}}</p>
+            <button><a href="/{{@root.userID}}/request_book/{{bk.userID}}/{{bk.bookID}}">Request Book</a></button>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+  {{else}}
+  <p>This user currently has no books available for swapping</p>
+  {{/if}}
+</div>
+
+<footer>© Elvis Press Leaves</footer>

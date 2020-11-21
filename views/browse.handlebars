@@ -49,15 +49,17 @@
           <th>Points</th>
           <th>Request</th>
         </tr>
-      {{#each bookList}}
+      {{#each bookList as |book|}}
         <tr>
-          <td>{{this.username}}</td>
-          <td>{{this.title}}</td>
-          <td>{{this.author}}</td>
-          <td>{{this.isbn}}</td>
-          <td>{{comp condition}}</td>
-          <td>{{this.points}}</td>
-          <td><a href="/{{userID.userID}}/request/{{this.userID}}/{{this.bookID}}">SWAP!</a></td>
+          <td>{{book.username}}</td>
+          <td>{{book.title}}</td>
+          <td>{{book.author}}</td>
+          <td>{{book.isbn}}</td>
+          <td>{{comp book.condition}}</td>
+          <td>{{book.points}}</td>
+          {{#each @root.userInfo as |usr|}}
+          <td><a href="/{{usr.id}}/request_book/{{book.userID}}/{{book.bookID}}">Request Book</a></td>
+          {{/each}}
         </tr>
       {{/each}}
       </table>

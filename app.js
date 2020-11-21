@@ -23,6 +23,34 @@ var hbs = require("express-handlebars").create({
                     return "Fresh off the press! (New)";
                 }
         },
+        addSub: function(pts, sndr, usr) {
+            if (sndr == usr) {
+                return "+" + pts;
+            } else {
+                return "-" + pts;
+            }
+        },
+        trdPtr: function(sndr, rcvr, usr) {
+            if (sndr == usr) {
+                return rcvr;
+            } else {
+                return sndr;
+            }
+        },
+        ptClr: function(pts, sndr, usr) {
+            if (sndr == usr) {
+                return "green";
+            } else {
+                return "red";
+            }
+        },
+        cmpPts: function(avb, cost) {
+            if (avb >= cost) {
+                return "block";
+            } else {
+                return "none";
+            }
+        },
     },
 });
 
@@ -60,7 +88,11 @@ var hbs = require("express-handlebars").create({
     const searchAuthor = 'SELECT tbl2.userID, u.username, tbl2.bookID, tbl2.title, tbl2.author, tbl2.isbn, tbl2.condition, tbl2.points FROM users u INNER JOIN (SELECT ub1.userID, ub1.bookID, tbl1.title, tbl1.author, tbl1.isbn, tbl1.condition, ub1.points FROM user_books ub1 INNER JOIN (SELECT * FROM `books` WHERE author=?) as tbl1 ON ub1.bookID=tbl1.id) as tbl2 ON u.id=tbl2.userID';
     const searchPoints = 'SELECT tbl2.userID, u.username, tbl2.bookID, tbl2.title, tbl2.author, tbl2.isbn, tbl2.condition, tbl2.points FROM users u INNER JOIN (SELECT ub1.userID, ub1.bookID, tbl1.title, tbl1.author, tbl1.isbn, tbl1.condition, ub1.points FROM user_books ub1 INNER JOIN (SELECT * FROM `books`) as tbl1 ON ub1.bookID=tbl1.id WHERE ub1.points=?) as tbl2 ON u.id=tbl2.userID';
     const searchAll = 'SELECT tbl2.userID, u.username, tbl2.bookID, tbl2.title, tbl2.author, tbl2.isbn, tbl2.condition, tbl2.points FROM users u INNER JOIN (SELECT ub1.userID, ub1.bookID, tbl1.title, tbl1.author, tbl1.isbn, tbl1.condition, ub1.points FROM user_books ub1 INNER JOIN (SELECT * FROM `books` WHERE title=? OR author=?) as tbl1 ON ub1.bookID=tbl1.id) as tbl2 ON u.id=tbl2.userID';
-    const swapHistory = 'SELECT tbl4.senderID, tbl4.senderName, tbl4.receiverID, u3.username AS reqName, tbl4.bookID, tbl4.title, tbl4.author, tbl4.isbn, tbl4.condition, tbl4.pointsTraded, tbl4.swapDate, tbl4.received from users u3 INNER JOIN (SELECT tbl3.senderID, u2.username AS senderName, tbl3.receiverID, tbl3.bookID, tbl3.title, tbl3.author, tbl3.isbn, tbl3.condition, tbl3.pointsTraded, tbl3.swapDate, tbl3.received from users u2 INNER JOIN (SELECT tbl2.senderID, u1.username, tbl2.receiverID, tbl2.bookID, tbl2.title, tbl2.author, tbl2.isbn, tbl2.condition, tbl2.pointsTraded, tbl2.swapDate, tbl2.received from users u1 INNER JOIN (SELECT c.senderID, c.receiverID, c.bookID, tbl1.title, tbl1.author, tbl1.isbn, tbl1.condition, c.pointsTraded, c.swapDate, c.received FROM completed_swaps c INNER JOIN (SELECT * FROM books) as tbl1 ON c.bookID = tbl1.id WHERE c.senderID = ? or c.receiverID = ?) as tbl2 ON u1.id = tbl2.senderID) as tbl3 ON u2.id = tbl3.senderID) as tbl4 ON u3.id=tbl4.receiverID';
+    const nevRec = 'UPDATE `users` SET `notReceived`=`notReceived` + 1 WHERE `id`= ?';
+    const nevSent = 'UPDATE `users` SET `notSent`=`notSent` + 1 WHERE `id`= ?';
+    const swapHistory = 'SELECT tbl4.senderID, tbl4.senderName, tbl4.receiverID, u3.username AS reqName, tbl4.bookID, tbl4.title, tbl4.author, tbl4.isbn, tbl4.condition, tbl4.pointsTraded, tbl4.swapDate, tbl4.received from users u3 INNER JOIN (SELECT tbl3.senderID, u2.username AS senderName, tbl3.receiverID, tbl3.bookID, tbl3.title, tbl3.author, tbl3.isbn, tbl3.condition, tbl3.pointsTraded, tbl3.swapDate, tbl3.received from users u2 INNER JOIN (SELECT tbl2.senderID, u1.username, tbl2.receiverID, tbl2.bookID, tbl2.title, tbl2.author, tbl2.isbn, tbl2.condition, tbl2.pointsTraded, tbl2.swapDate, tbl2.received from users u1 INNER JOIN (SELECT c.senderID, c.receiverID, c.bookID, tbl1.title, tbl1.author, tbl1.isbn, tbl1.condition, c.pointsTraded, c.swapDate, c.received FROM completed_swaps c INNER JOIN (SELECT * FROM books) as tbl1 ON c.bookID = tbl1.id WHERE (c.senderID = ? or c.receiverID = ?) AND c.received=1) as tbl2 ON u1.id = tbl2.senderID) as tbl3 ON u2.id = tbl3.senderID) as tbl4 ON u3.id=tbl4.receiverID';
+    const getReqBook = 'SELECT tbl2.userID, s.username, tbl2.bookID, tbl2.title, tbl2.author, tbl2.isbn, tbl2.condition FROM users s INNER JOIN (SELECT u.userID, u.bookID, tbl1.title, tbl1.author, tbl1.isbn, tbl1.condition FROM user_books u INNER JOIN (SELECT * FROM books b) as tbl1 ON u.bookID = tbl1.id WHERE u.userID = ? AND u.bookID = ?) as tbl2 ON s.id = tbl2.userID';
+
 
 //GROUP BY tbl4.senderID
     // ROOT ROUTE
@@ -118,16 +150,15 @@ var hbs = require("express-handlebars").create({
                 console.log('error: ', err);
             } else {
                 contents.userInfo = result;
-                console.log(result);
                 mysql.pool.query(swapHistory, [req.params.userID, req.params.userID], (err, result) => {
                     if (err) {
                         console.log('error: ', err);
                     } else {
                             contents.history = result;
-                            console.log(result);
+                            console.log(contents);
                             res.render('account', contents);
                     }
-                });
+                });    
             }
 
         });
@@ -235,21 +266,58 @@ var hbs = require("express-handlebars").create({
         }
     });
 
-    // ROUTE FOR USER'S COMPLETED SWAPS
-    app.get("/:userID/history", function(req, res, next) {
+    // REQUEST BOOK PAGE
+    app.get("/:userID/request_book/:ownerID/:bookID", function(req, res, next) {
         let contents = {};
         contents.userID = req.params.userID;
 
-//       NEED TO FIX GETCOMPSWAPS QUERY
-//        mysql.pool.query(getCompSwaps, req.params.userID, (err, result) => {
-//            if (err) {
-//                console.log('error: ', err);
-//            } else {
-//                    contents.swaps = result;
-//                    console.log(result);
-                    res.render('swaphistory', contents);
-//            }
-//        });
+        // retrieve user info for processing requests
+        mysql.pool.query('SELECT `id`, `availablePoints` FROM users WHERE id=?', req.params.userID, (err, result) => {
+            if (err) {
+                console.log('error: ', err);
+            } else {
+                contents.userInfo = result;
+                // retrieve info for page load
+                mysql.pool.query(getReqBook, [req.params.ownerID, req.params.bookID], (err, result) => {
+                    if (err) {
+                        console.log('error: ', err);
+                    } else {
+                            contents.book = result;
+                            console.log(result);
+                            res.render('request', contents);    
+                    }
+                });    
+            }
+        });
+    });
+
+    // REQUEST POST ROUTE FOR DB
+    app.post("/confirm_request", function(req, res, next) {
+        let contents = {};
+        contents.userID = req.params.userID;
+
+        // subtract available points from requestor
+        mysql.pool.query(subAvbPts, [req.body.pointAmt, req.body.recipient], (err, result) => {
+            if (err) {
+                console.log('error: ', err);
+            } else {
+                // add pending request for sender
+                mysql.pool.query(addPending, [req.body.sender, req.body.recipient, req.body.book, req.body.pointAmt, req.body.swapDate], (err, result) => {
+                    if (err) {
+                        console.log('error: ', err);
+                    } else {
+                        mysql.pool.query('SELECT * FROM users WHERE id=?', req.body.sender, (err, result) => {
+                            if (err) {
+                                console.log('error: ', err);
+                            } else {
+                                contents.owner = result;
+                                res.send(contents);
+                            }
+                        });    
+                    }
+                });    
+            }
+        });
     });
 
     // USER'S PENDING SWAP REQUEST PAGE

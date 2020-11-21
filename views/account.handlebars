@@ -13,11 +13,6 @@
 
 <h2>Welcome to Your User Account Page</h2>
 
-<p>View Your Account Information:</p>
-
-
-
-
 <div id="userAcctInfo">
 
   <table id='header-table'>
@@ -29,121 +24,115 @@
     </thead>
   </table>
 
-  <table >
-      <thead>
-          <tr>
-            <th>
-              <table id="inner-table">
-              <thead>
-
-                  <th>Username</th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Street Address</th>
-                  <th>City</th>
-                  <th>State</th>
-                  <th>Zip Code</th>
-                  <th>Available Points</th>
-                  <th>Pending Points</th>
-        {{!--     <th>Completed Swaps</th>
-                  <th>Pending Swaps</th>
-         --}}
-              </thead>
-              <thead>
-
-                  {{#if userInfo}}
-                  {{#each userInfo}}
-
-                      <td id="Acc-info-field">{{username}}</td>
-                      <td id="Acc-info-field">{{firstName}}</td>
-                      <td id="Acc-info-field">{{lastName}}</td>
-                      <td id="Acc-info-field">{{street}}</td>
-                      <td id="Acc-info-field">{{city}}</td>
-                      <td id="Acc-info-field">{{state}}</td>
-                      <td id="Acc-info-field">{{zipCode}}</td>
-                      <td id="Acc-info-field">{{availablePoints}}</td>
-                      <td id="Acc-info-field">{{pendingPoints}}</td>
-          {{!--             <td>{{this.complSwap}}</td>
-                      <td>{{this.pendSwap}}</td
-           --}}
-                  {{/each}}
-              </thead>
-        </table>
-
-    </div>
-    <div id="account-update-form">
-      <form method = "post">
+  <div id="inner-table">
+      <table>
+          <thead>
+              <tr>
+                <th>Username</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Street Address</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Zip Code</th>
+                <th>Available Points</th>
+                <th>Pending Points</th>
+                <th>Books Not Sent</th>
+                <th>Books Not Received</th>
+              </tr>
+          </thead>
+          <tbody>
+          {{!-- Load user's account info with helpers --}}
           {{#if userInfo}}
-              {{#each userInfo}}
-                    <fieldset >
-                        <legend>Edit Profile Information:</legend>
-                        <label hidden>
-                            <input type ="text" name ="usrnm" value="{{this.username}}">
-                        </label>
-                        <label id="update-fields">
-                            <input type ="text" name ="firstName" value="{{this.firstName}}">
-                        </label>
-                        <label id="update-fields">
-                            <input type ="text" name ="lastName" value="{{lastName}}">
-                        </label>
-                        <label id="update-fields">
-                            <input type ="text" name ="steet" value="{{street}}">
-                        </label>
-                        <label id="update-fields">
-                            <input type ="text" name ="city" value="{{city}}">
-                        </label>
-                        <label id="update-fields">
-                            <input type ="text" name ="state" value="{{state}}">
-                        </label>
-                        <label id="update-fields">
-                            <input type ="text" name ="zipCode" value="{{zipCode}}">
-                        </label>
-
-                        <p><input type="Submit" name="accountUpdate" id="accountUpdate" value="Save Update"></p>
-                    </fieldset>
-                      <p></p>
-                {{/each}}
-            {{/if}}
-       </form>
-    </div>
-    <div id="header-table-3" style="display: none;">
-      <table >
-        <thead>
-
-           <th>Title</th>
-           <th>Author</th>
-           <th>ISBN</th>
-           <th>Condition</th>
-           <th>Pts</th>
-           <th>Trade with:</th>
-           <th>Swap Date</th>
-
-        </thead>
-        <div id="header-table-3-inner">
-
-
-            {{#if history}}
-            {{#each history}}
-              <thead>
-                <td>{{title}}</td>
-                <td>{{author}}</td>
-                <td>{{isbn}}</td>
-                <td>{{condition}}</td>
-                <td id="points">{{pointsTraded}}</td>
-                <td>{{reqName}}</td>
-                <td>{{swapDate}}</td>
-              </thead>
-            {{/each}}
-            {{/if}}
-
-      </div>
-
+          {{#each userInfo}}
+            <tr>
+              <td>{{username}}</td>
+              <td>{{firstName}}</td>
+              <td>{{lastName}}</td>
+              <td>{{street}}</td>
+              <td>{{city}}</td>
+              <td>{{state}}</td>
+              <td>{{zipCode}}</td>
+              <td>{{availablePoints}}</td>
+              <td>{{pendingPoints}}</td>
+              <td>{{notSent}}</td>
+              <td>{{notReceived}}</td>
+            </tr>
+          {{/each}}
+          </tbody>
       </table>
-    </div>
+  </div>
+  {{!-- Warning if no account information found --}}
+  {{else}}
+  <div class="warnText">No User Account Information Available<br><br></div>
+  {{/if}}
+  {{!-- Update fields for account info --}}
+  <p>Update Your Account Information Here:</p>
 
+  <form method = "post" id="account-update-form">
+  {{#if userInfo}}
+  {{#each userInfo}}
+    <fieldset>
+      <legend>Update Selected Account Information:</legend>
+        <label hidden>Username:
+          <input type ="text" name ="usrnm" value="{{this.username}}">
+        </label>
+        <label>First Name:
+          <input type ="text" name ="firstName" value="{{this.firstName}}">
+        </label><br><br>
+        <label>Last Name:
+          <input type ="text" name ="lastName" value="{{lastName}}">
+        </label><br><br>
+        <label>Street Address:
+          <input type ="text" name ="steet" value="{{street}}">
+        </label><br><br>
+        <label>City:
+          <input type ="text" name ="city" value="{{city}}">
+        </label><br><br>
+        <label>State:
+          <input type ="text" name ="state" value="{{state}}">
+        </label><br><br>
+        <label>Zip Code:
+          <input type ="text" name ="zipCode" value="{{zipCode}}">
+        </label><br><br>
+
+        <p><input type="Submit" name="accountUpdate" id="accountUpdate" value="Update Account"></p>
+    </fieldset>
+  {{/each}}
+  {{/if}}
+  </form>
+  
+  <div id="header-table-3" style="display: none">
+    <p>Below are the completed swaps you've participated in.  Green points are books that you sent to the user.  Red points are books that you received from the user.</p>
+    {{#if history}}
+    <table>
+      <thead>
+        <th>Title</th>
+        <th>Author</th>
+        <th>ISBN</th>
+        <th>Condition</th>
+        <th>Points</th>
+        <th>Traded With</th>
+        <th>Swap Date</th>                      
+      </thead>
+      <tbody>
+      {{#each history as |swap|}}
+        <tr>
+          <td>{{swap.title}}</td>
+          <td>{{swap.author}}</td>
+          <td>{{swap.isbn}}</td>
+          <td>{{comp swap.condition}}</td>
+          {{#each @root.userInfo as |usr|}}
+          <td style="color:{{ptClr swap.pointsTraded swap.senderName usr.username}}">{{addSub swap.pointsTraded swap.senderName usr.username}}</td>
+          <td><a href="/{{usr.id}}/viewshelf/{{trdPtr swap.senderID swap.receiverID usr.id}}">{{trdPtr swap.senderName swap.reqName usr.username}}</a></td>
+          {{/each}}
+          <td>{{swap.swapDate}}</td>                      
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
     {{else}}
-        <div class="warnText">No User Account Information Available<br><br>
-        </div>
+    <p>You haven't swapped any books yet.  Add books for users to request or head to our browse page to request one.</p>
     {{/if}}
   </div>
 
