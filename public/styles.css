@@ -180,3 +180,12 @@ body
 {
 	width: 350px; padding: 20px;
 }
+
+form { 
+  margin: 0 auto;
+  width: 500px;
+}
+
+.searchprompt { 
+  text-align:center;
+}

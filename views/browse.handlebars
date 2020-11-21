@@ -14,13 +14,16 @@
 
 <div id="preReq">
   <h2>Browse our Database of Millions of Swap-Ready Books, Worldwide!</h2>
-
-  <p>Search for a book using any or all of the fields below.</p>
+  <div class="searchprompt">
+    <p>Search for a book using any or all of the fields below.</p>
+  </div>
 
   <form method ="GET" action ="/browse">
     <fieldset>
       <legend>Search for...</legend>
+        <label>Title:
           <input type ="text" name ="title">
+        </label><br><br>
         <label>Author:
           <input type ="text" name ="author">
         </label><br><br>
