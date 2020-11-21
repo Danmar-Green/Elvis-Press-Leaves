@@ -23,8 +23,9 @@ body {
 }
 
 .topnav a.active { 
-  background-color: #ddd;
-  color: black;
+  background-color: #dddddd;
+  color: darkgreen;
+  font-weight: bold;
 }
 
 img {
@@ -107,9 +108,10 @@ background-color: #dddddd;
 
 footer {
 left: 45%;
-bottom: 0;
+bottom: 0%;
 color: darkgreen;
 text-align: center;
+padding-top: 3%;
 }
 
 #returningUser {
@@ -123,6 +125,7 @@ div.book {
   border: 1px solid #000000;
   max-width: 30%;
   margin-left: 1%;
+  padding-top: 2px;
   padding-left: 2px;
   padding-bottom: 2px;
   flex-wrap: wrap;

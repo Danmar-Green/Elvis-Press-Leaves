@@ -10,16 +10,14 @@
 </div>
 {{/if}}
 
-{{!-- Load book info and confirmation prompt --}}
+{{!-- Load swap information from helpers --}}
 {{#each swaps}}
-<div id="rejectPrompt">
-    <h2>Confirm Swap Rejection</h2>
+<div id="acceptPrompt">
+    <h2>Confirm Acceptance</h2>
 
-    <p>Please confirm that you would like to reject this swap with {{this.reqName}}:
-    <p>{{this.title}} by {{this.author}}</p>
-    <p>{{comp this.condition}} condition for {{this.pointsTraded}} points</p>
+    <p>Please confirm that you would like to send {{this.reqName}} your copy of {{this.title}} by {{this.author}} in {{comp this.condition}} condition for {{this.pointsTraded}} points</p>
 
-    <button id="rejectSwap">REJECT SWAP</button>
+    <button id="acceptSwap">ACCEPT SWAP</button>
 
     <div id="hiddenValues">
         <span id="swap">{{this.id}}</span>
@@ -31,16 +29,21 @@
 </div>
 {{/each}}
 
-{{!-- Message for when API successfully finishes --}}
-<div id="rejectSuccess">
-    <h2>Swap Rejected!  This swap will no longer show as pending in your pending swaps list.</h2>
+{{!-- Success message with recipient's mailing address when swap has been accepted --}}
+<div id="acceptSuccess">
+    <h2>Congratulations!  Once <span id="recipientName"></span> has received your book, the points will be added to your account!</h2>
+
+    <p>Send your book to:</p>
+    <p id="mailingName"></p>
+    <p id="mailingStreet"></p>
+    <p id="mailingState"></p>
 </div>
 
-{{!-- Message for when API encounters error --}}
-<div id="rejectError">
+{{!-- Standard error message --}}
+<div id="acceptError">
     <h2>Oops!  Something went wrong.  Try again.</h2>
 </div>
 
 <footer>© Elvis Press Leaves</footer>
 
-<script src="/reject.js"></script>
+<script src="/accept.js"></script>

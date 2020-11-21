@@ -1,153 +1,111 @@
+{{!-- Standard Nav Bar on logged in pages --}}
 {{#if userID}}
 <div class="topnav">
   <img class="logo" src="/img/logo.png">
   <a href="/{{this.userID}}/account">Account</a>
-  <a class="action" href="/{{this.userID}}/shelf">Bookshelf</a>
-  <a href="/{{this.userID}}/history">Swap History</a>
-  <a href="/{{this.userID}}/swaps">Swap Notification</a>
+  <a class="active" href="/{{this.userID}}/shelf">Bookshelf</a>
+  <a href="/{{this.userID}}/manage">Manage Swaps</a>
   <a href="/{{this.userID}}/browse">Browse</a>
   <a href="/">Logout</a>
 </div>
+
+<input id="user" name="user" type="hidden" value={{this.userID}}>
 {{/if}}
 
-<h2>Welcome to Your Bookshelf</h2>
+{{#if username}}
+<h2><span id="username">{{this.username}}</span>'s Bookshelf</h2>
+{{/if}}
 
-<p>Here you can add books to your bookshelf</p>
-  <form method = "post" action ="/shelf">
-<!--NEWBOOKSHELF-->
-    <fieldset>
-      <legend>Add Book Here:</legend>
-        <label>Book Title:
-          <input type ="text" name ="title">
-        </label><br><br>
-        <label>Author:
-          <input type ="text" name ="author">
-        </label><br><br>
-        //<label>ISBN:
-          <input type ="text" name ="isbn">
-        </label><br><br>
-        <label>Condition:
-          <select name = "bookCondition">
-                  <option value = "5" selected> Fresh off the press! (New)</option>
-                  <option value = "4" selected> Delicately Read (Like New)</option>
-                  <option value = "3" selected> Dog-Eared (Slightly Worn)</option>
-                  <option value = "2" selected> Highlight Frenzy (Marks & Highlight Present)</option>
-                  <option value = "1" selected> Loved to Pieces (Rips, Water-Damage, Weak Bindings Present)</option>
-          </select><br><br>
-        </label><br><br>
-        <input name ="newBookShelfClick" id="nbsClick" value="Submit" type="Submit"/>
-    </fieldset>
-    <h2>Book Swap</h2>
-      <p>Search</p>
-
-    <form method ="GET" action ="/shelf">
-      <fieldset>
-        <legend>Manage Your Bookshelf:</legend>
-    			<label>Book Title:
-            <input type ="text" name ="title">
-          </label><br><br>
-    			<label>Book Author:
-            <input type ="text" name ="author">
-          </label><br><br>
-          <label>Condition:
-            <select name = "bookCondition">
-                    <option value = "1" selected> Fresh off the press! (New)</option>
-                    <option value = "2" selected> Delicately Read (Like New)</option>
-                    <option value = "3" selected> Dog-Eared (Slightly Worn)</option>
-                    <option value = "4" selected> Highlight Frenzy (Marks & Highlight Present)</option>
-                    <option value = "5" selected> Loved to Pieces (Rips, Water-Damage, Weak Bindings Present)</option>
-            </select><br><br>
-          </label><br><br>
-        <input name ="custSearch" id="custSearch" value="Search" type="submit"/>
-
-      </fieldset>
-    </form>
-
-    {{#if custs}}
-      <table>
-        <tr>
-          <th>Delete</th>
-          <th class="pk">customerId</th>
-          <th>email</th>
-          <th>memberSince</th>
-          <th>firstName</th>
-          <th>lastName</th>
-        </tr>
-        {{#each custs}}
-        <tr>
-          <td>
-            <input type="button" name="delete" value="Delete" onClick="delCust({{this.id}})">
-          <td>{{this.id}}</td>
-          <td>{{email}}</td>
-          <td>{{memberSince}}</td>
-          <td>{{fName}}</td>
-          <td>{{lName}}</td>
-        </tr>
-        {{/each}}
-      </table>
-    {{else}}
-      <div class="warnText">No Customers Returned<br><br></div>
-    {{/if}}
-    {{!-- This page is for displaying a user's account info --}}
-    <div style="padding-left:16px">
-      <h2>Book Swap</h2>
-        <p>View and Update Account Information Here</p>
-
-      <form method ="GET" action ="/userAccount">
-        <fieldset>
-          <legend>My Shipping Information:</legend>
-      			<label>Name:
-              <input type ="text" name ="userName">
-            </label><br><br>
-      			<label>Address:
-              <input type ="text" name ="userAddress">
-            </label><br><br>
-      			<label>:
-              <input type ="text" name ="email">
-              </label><br><br>
-            <label>Address:
-              <input type ="text" name ="">
-              </label><br><br>
-        		<label>:
-              <input type ="text" name ="email">
-              </label><br><br>
-      			<!--<label>Membership Start-Date:
-              <input type ="date" name ="memberSince">
-            </label><br><br> -->
-            <input name ="custSearch" id="custSearch" value="Search" type="submit"/>
-
-        </fieldset>
-      </form>
-
-      {{#if custs}}
-        <table>
-          <tr>
-            <th>Delete</th>
-            <th class="pk">customerId</th>
-            <th>email</th>
-            <th>memberSince</th>
-            <th>firstName</th>
-            <th>lastName</th>
-          </tr>
-          {{#each custs}}
-          <tr>
-            <td>
-              <input type="button" name="delete" value="Delete" onClick="delCust({{this.id}})">
-            <td>{{this.id}}</td>
-            <td>{{email}}</td>
-            <td>{{memberSince}}</td>
-            <td>{{fName}}</td>
-            <td>{{lName}}</td>
-          </tr>
-          {{/each}}
-        </table>
-      {{else}}
-        <div class="warnText">No Customers Returned<br><br></div>
-      {{/if}}
-
+{{!-- Load current books with helpers --}}
+{{#if bookList}}
+<div class="shelf">
+  {{#each bookList}}
+    <div class="book">
+        <div class="bookDetails">
+            <p class="bookTitle"><i>{{this.title}}</i> by {{this.author}}</p>
+            <p class="bookISBN">ISBN: {{this.isbn}}</p>            
+            <p class="bookCondition">Condition: {{comp this.condition}}</p>            
+            <p class="bookPoints">Point Value: {{this.condition}}</p>
+            <button onclick="deleteBook({{this.bookID}}, {{this.condition}})">Delete Book from Shelf</button>
+        </div>
     </div>
+  {{/each}}
+</div>
+{{else}}
+<p>You have no books currently available on your bookshelf</p>
+{{/if}}
+
+{{!-- Add book modal --}}
+<div class="container-fluid">
+  <div class="row mb-3">
+      <div class="col text-center"><h5>Add A Book To Your Shelf</h5></div>
   </div>
-</form>
+  <div class="row mb-2">
+      <div class="col text-center">
+          <div class="row mb-2">
+              <div class="col text-center">
+                  <button id="addBook" class="btn btn-success" onclick=DisplayAddBook()>Add Book</button>
+              </div>
+          </div>
+      </div>
+      <div id="bookModal" class="modal" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header" id="modalHeader">
+                      <h5 class="modal-title" id="modalTitle"></h5>
+                  </div>
+                  <div class="modal-body" id="modalBody">
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="d-none" id="addForm">
+        <form>
+          <div class="row mb-1">
+              <div class="col">
+                  <input name="title" id="book_name" class="form-control" placeholder="Title" required>
+              </div>
+          </div>
+          <div class="row mb-1">
+              <div class="col">
+                  <input name="author" id="book_author" class="form-control" placeholder="Author" required>
+              </div>
+          </div>
+          <div class="row mb-1">
+              <div class="col">
+                  <input name="ISBN" id="book_ISBN" type="text" class="form-control" placeholder="ISBN">
+              </div>
+          </div>
+          <div class="row mb-1">
+              <div class="col">
+                  <select name="condition" id="book_condition" class="form-control">
+                      <option value=1>Loved to Pieces (Rips, Water-Damage, Weak Bindings Present)</option>
+                      <option value=2>Highlight Frenzy (Marks Present)</option>
+                      <option value=3>Dog-Eared (Slightly Worn)</option>
+                      <option value=4>Delicately Read (Like New)</option>
+                      <option value=5>Fresh off the press! (New)</option>
+                  </select>
+                  <div class="modal-footer">
+                      <button type="button" id="add_Book" class="btn btn-primary" onclick="return addBook()">Add Book</button>
+                      <button type="button" id="closeBook" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+              </div>
+          </div>
+        </form>
+      </div>
+  </div>
 </div>
 
 <footer>© Elvis Press Leaves</footer>
+
+<script src="https://kit.fontawesome.com/1e77617bd7.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+<script src="/bookScript.js"></script>

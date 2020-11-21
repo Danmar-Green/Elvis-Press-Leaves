@@ -1,0 +1,44 @@
+{{!-- Standard Nav Bar on logged in pages --}}
+{{#if userID}}
+<div class="topnav">
+  <img class="logo" src="/img/logo.png">
+  <a href="/{{this.userID}}/account">Account</a>
+  <a href="/{{this.userID}}/shelf">Bookshelf</a>
+  <a href="/{{this.userID}}/manage">Manage Swaps</a>
+  <a href="/{{this.userID}}/browse">Browse</a>
+  <a href="/">Logout</a>
+</div>
+{{/if}}
+
+{{!-- Load book info and confirmation prompt --}}
+{{#each swaps}}
+<div id="neverPrompt">
+    <h2>Confirm book was never received</h2>
+
+    <p>You are marking {{this.title}} by {{this.author}} from {{this.senderName}} as <b>never received</b>. Continuing will remove this listing from your list of tracked swaps and add to your count of books not received.</p>
+
+    <button id="neverSwap">CONFIRM</button>
+
+    <div id="hiddenValues">
+        <input id="swapID" name="swapID" type="hidden" value={{this.id}}>
+        <input id="recID" name="recID" type="hidden" value={{this.receiverID}}>
+        <input id="sendID" name="sendID" type="hidden" value={{this.senderID}}>
+        <input id="ptsAmt" name="ptsAmt" type="hidden" value={{this.pointsTraded}}>
+        <input id="bookID" name="bookID" type="hidden" value={{this.bookID}}>
+    </div>
+</div>
+{{/each}}
+
+{{!-- Message when API successfully completes --}}
+<div id="neverSuccess">
+    <h2>We are sorry you never got your book! The swap points have been added back to your account for you to search for your next swap.</h2>
+</div>
+
+{{!-- Message if API encounters an error --}}
+<div id="neverError">
+    <h2>Oops!  Something went wrong.  Try again.</h2>
+</div>
+
+<footer>© Elvis Press Leaves</footer>
+
+<script src="/received.js"></script>

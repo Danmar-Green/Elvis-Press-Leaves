@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', getUser);
 
+// Hide areas not intended for initial page load
 hideError();
 hideNoUser();
 
@@ -29,7 +30,7 @@ function getUser(){
 	document.getElementById('userLogin').addEventListener('click', function(event){
         var req = new XMLHttpRequest();
         
-        // Create JSON data to send with new user info and no id set
+        // Create JSON data to send with user login info
         var userData = {
             username : document.getElementById("username").value,
             password : document.getElementById("password").value,
@@ -42,6 +43,7 @@ function getUser(){
               if (response.userInfo.length == 0) {
                 showNoUser();
               } else {
+                // Load account page upon successful login
                 var user = response.userInfo[0].id;
                 var link = "/" + user + "/account";
                 window.location.href = link;                
