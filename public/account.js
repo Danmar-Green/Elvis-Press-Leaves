@@ -13,21 +13,8 @@ document.getElementById("Swap-History").addEventListener("click", function() {
       x.style.display = "block";
 
   }
-  var i = 0;
-  while (i < 10){
-  var v = document.getElementById('points').value;
-  var v1 = document.getElementById('points');
-console.log(v);
-  if(v > 0)
-    v1.style.color = "green";
-
-  else {
-    v1.style.color = "blue";
-  }
-i++;
-}
-
 });
+
 document.getElementById("User-Profile").addEventListener("click", function() {
   var x = document.getElementById("header-table-3");
   var y = document.getElementById("inner-table");
