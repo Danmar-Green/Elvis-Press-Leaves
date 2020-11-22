@@ -114,18 +114,18 @@ text-align: center;
 padding-top: 3%;
 }
 
-.home {
-text-align: center;
-}
-
 #returningUser {
   padding-bottom: 2%;
+  border: 2px double #000000;
+  max-width: 40%;
+  margin-left: 30%;
 }
 
 div.book {
   border: 1px solid #000000;
   max-width: 30%;
   margin-left: 1%;
+  padding-top: 2px;
   padding-left: 2px;
   padding-bottom: 2px;
   flex-wrap: wrap;
@@ -146,6 +146,14 @@ h2 {
   padding-top: 3%;
 }
 
+.home {
+  align-content: center;
+  text-align: center;
+}
+
+.reqDiv {
+  padding-top: 2%;
+  margin-left: 5%;
 
 /*How to embed logo, found: https://stackoverflow.com/questions/30624709/css-html-navigation-and-logo-on-same-line*/
 .navigation-bar {
@@ -189,3 +197,13 @@ form {
 .searchprompt { 
   text-align:center;
 }
+
+/* Moved from account.css */
+#headertable{
+  width: 10%;  
+}
+
+#hide{
+  color: red;
+}
+  
