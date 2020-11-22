@@ -1,0 +1,43 @@
+{{#if userID}}
+<div class="topnav">
+  <img class="logo" src="img/logo.png">
+  <a href="/{{this.userID}}/account">Account</a>
+  <a href="/{{this.userID}}/shelf">Bookshelf</a>
+  <a href="/{{this.userID}}/swaps">Pending Swaps</a>
+  <a href="/{{this.userID}}/browse">Browse</a>
+  <a href="/">Logout</a>
+</div>
+{{/if}}
+
+{{#each swaps}}
+<div id="requestPrompt">
+    <h2>Confirm Request for Book Swap</h2>
+
+    <p>Please confirm that you would like to request a swap from {{this.reqName}} for their copy of {{this.title}} by {{this.author}} in {{comp this.condition}} condition for {{this.pointsTraded}} points</p>
+
+    <button id="acceptSwap">REQUEST SWAP</button>
+
+    <div id="hiddenValues">
+        <span id="swap">{{this.id}}</span>
+        <span id="sender">{{this.senderID}}</span>
+        <span id="receiver">{{this.receiverID}}</span>
+        <span id="book">{{this.bookID}}</span>
+        <span id="points">{{this.pointsTraded}}</span>
+    </div>
+</div>
+{{/each}}
+
+<div id="requestSuccess">
+    <h2>Your request has been sent!
+    <p>We will hold <span id="pointsTraded"></span> of your points (the value of the requested trade) while the request is active. Once you confrim that <span id="senderName"></span> has sent you the book, the points will be transfered to their account.</p>
+    <p>You can cancel your request below. When you cancel, the <span id="pointsTraded"></span> we put in holding will be returned to your account immediately. 
+</div>
+
+
+<div id="requestError">
+    <h2>Oops!  Something went wrong.  Try again.</h2>
+</div>
+
+<footer>© Elvis Press Leaves</footer>
+
+<script src="/request.js"></script>
