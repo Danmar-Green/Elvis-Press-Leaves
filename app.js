@@ -176,8 +176,14 @@ var hbs = require("express-handlebars").create({
                 console.log('error: ', err);
             } else {
                     contents.bookList = result;
-                    contents.username = result[0].username;
-                    res.render('shelf', contents);
+                    mysql.pool.query('SELECT * FROM users WHERE id=?', req.params.userID, (err, result) => {
+                        if (err) {
+                            console.log('error: ', err);
+                        } else {
+                            contents.username = result[0].username;
+                            res.render('shelf', contents);
+                        }
+                    });
             }
         });    
     });
