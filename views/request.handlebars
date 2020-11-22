@@ -17,7 +17,7 @@
 {{#each @root.userInfo as |usr|}}
 <div id="proceed" style="display: {{cmpPts usr.availablePoints bk.condition}}" class="reqDiv">
 {{/each}}
- <p>Confirm your selection:</p>
+<h2>Confirm Request for Book Swap</h2>
  <p>{{bk.title}} by {{bk.author}}</p>
  <p>Condition: {{comp bk.condition}}</p>
  <p>Points: {{bk.condition}}</p>
@@ -37,7 +37,9 @@
 
 {{!-- Message for when API successfully finishes --}}
 <div id="requestSuccess" style="display: none" class="reqDiv">
-    <h2>Your request has been processed!  If <span id="ownerName"></span> accepts your request, it will appear in your pending received.</h2>
+    <h2>Your request has been sent!</h2>
+    <p>We will hold your points while the request is active. If <span id="ownerName"></span> accepts your request, it will appear in your pending received.</p>
+    <p>Once you confirm that <span id="senderName"></span> has sent you the book, the points will be transfered to their account.</p>
 </div>
 
 {{!-- Message for when API encounters error --}}

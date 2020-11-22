@@ -46,7 +46,9 @@ function requestSwap(){
 
                 // Add book owner's name to success message
                 var addOwner = document.getElementById("ownerName");
+                var add2 = document.getElementById("senderName");
                 addOwner.textContent = response.owner[0].username;
+                add2.textContent = response.owner[0].username;
                 showSuccess();
             }
             else {
