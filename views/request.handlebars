@@ -1,12 +1,4 @@
-{{#if userID}}
-<div class="topnav">
-  <img class="logo" src="img/logo.png">
-  <a href="/{{this.userID}}/account">Account</a>
-  <a href="/{{this.userID}}/shelf">Bookshelf</a>
-  <a href="/{{this.userID}}/swaps">Pending Swaps</a>
-  <a href="/{{this.userID}}/browse">Browse</a>
-  <a href="/">Logout</a>
-</div>
+
 {{/if}}
 
 {{#each swaps}}
@@ -20,7 +12,7 @@
     <div id="hiddenValues">
         <span id="swap">{{this.id}}</span>
         <span id="sender">{{this.senderID}}</span>
-        <span id="receiver">{{this.receiverID}}</span>
+        <span id="requester">{{this.requestID}}</span>
         <span id="book">{{this.bookID}}</span>
         <span id="points">{{this.pointsTraded}}</span>
     </div>
@@ -30,7 +22,7 @@
 <div id="requestSuccess">
     <h2>Your request has been sent!
     <p>We will hold <span id="pointsTraded"></span> of your points (the value of the requested trade) while the request is active. Once you confrim that <span id="senderName"></span> has sent you the book, the points will be transfered to their account.</p>
-    <p>You can cancel your request below. When you cancel, the <span id="pointsTraded"></span> we put in holding will be returned to your account immediately. 
+    <p>You can cancel your request below. When you cancel, the <span id="pointsTraded"></span> we put in holding will be returned to your account immediately.
 </div>
 
 
