@@ -39,7 +39,7 @@
                     <option value = "1" selected> Loved to Pieces (Rips, Water-Damage, Weak Bindings Present)</option>
             </select><br><br>
         </label><br><br>
-      <input name ="browseBooksClick" id="brsBks" value="Search" type="submit"/>
+      <input name ="browseBooksClick" id="brsBks" value="Search" type="submit">
     </fieldset>
   </form>
 
@@ -65,7 +65,7 @@
           <td>{{comp book.condition}}</td>
           <td>{{book.points}}</td>
           {{#each @root.userInfo as |usr|}}
-          <td><a href="/{{usr.id}}/request_book/{{book.userID}}/{{book.bookID}}">Request Book</a></td>
+          <td class="greenBtn"><a href="/{{usr.id}}/request_book/{{book.userID}}/{{book.bookID}}">Request Book</a></td>
           {{/each}}
         </tr>
       {{/each}}

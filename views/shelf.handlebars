@@ -26,7 +26,7 @@
             <p class="bookISBN">ISBN: {{this.isbn}}</p>            
             <p class="bookCondition">Condition: {{comp this.condition}}</p>            
             <p class="bookPoints">Point Value: {{this.condition}}</p>
-            <button onclick="deleteBook({{this.bookID}}, {{this.condition}})">Delete Book from Shelf</button>
+            <button onclick="deleteBook({{this.bookID}}, {{this.condition}})" class="redBtn">Delete Book from Shelf</button>
         </div>
     </div>
   {{/each}}
@@ -86,8 +86,8 @@
                       <option value=5>Fresh off the press! (New)</option>
                   </select>
                   <div class="modal-footer">
-                      <button type="button" id="add_Book" class="btn btn-primary" onclick="return addBook()">Add Book</button>
-                      <button type="button" id="closeBook" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" id="add_Book" class="btn btn-primary greenBtn" onclick="return addBook()">Add Book</button>
+                      <button type="button" id="closeBook" class="btn btn-secondary redBtn" data-dismiss="modal">Close</button>
                   </div>
               </div>
           </div>
