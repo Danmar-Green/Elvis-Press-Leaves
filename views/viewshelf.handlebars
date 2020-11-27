@@ -31,7 +31,7 @@
             <p class="bookISBN">ISBN: {{bk.isbn}}</p>            
             <p class="bookCondition">Condition: {{comp bk.condition}}</p>            
             <p class="bookPoints">Point Value: {{bk.condition}}</p>
-            <button><a href="/{{@root.userID}}/request_book/{{bk.userID}}/{{bk.bookID}}">Request Book</a></button>
+            <button class="greenBtn"><a href="/{{@root.userID}}/request_book/{{bk.userID}}/{{bk.bookID}}">Request Book</a></button>
         </div>
       </div>
     {{/each}}

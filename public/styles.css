@@ -154,6 +154,7 @@ h2 {
 .reqDiv {
   padding-top: 2%;
   margin-left: 5%;
+}
 
 /*How to embed logo, found: https://stackoverflow.com/questions/30624709/css-html-navigation-and-logo-on-same-line*/
 .navigation-bar {
@@ -206,4 +207,28 @@ form {
 #hide{
   color: red;
 }
-  
+
+.greenBtn a {
+  text-decoration: none;
+  color: darkgreen;
+  font-weight: bold;
+}
+
+.redBtn a {
+  text-decoration: none;
+  color: darkred;
+  font-weight: bold;
+}
+
+.greenBtn {
+  background-color: rgb(209, 248, 209);
+  color: darkgreen;
+  font-weight: bold;
+}
+
+.redBtn {
+  background-color: rgb(248, 193, 193);
+  color: darkred;
+  font-weight: bold;
+}
+

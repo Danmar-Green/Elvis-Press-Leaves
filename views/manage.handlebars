@@ -49,8 +49,8 @@
                                     <td>{{comp this.condition}}</td>
                                     <td>{{this.pointsTraded}}</td>
                                     <td>{{this.swapDate}}</td>
-                                    <td><a href="/{{this.senderID}}/accept/{{this.id}}">Accept</a></td>
-                                    <td><a href="/{{this.senderID}}/reject/{{this.id}}">Reject</a></td>
+                                    <td class="greenBtn"><a href="/{{this.senderID}}/accept/{{this.id}}">Accept</a></td>
+                                    <td class="redBtn"><a href="/{{this.senderID}}/reject/{{this.id}}">Reject</a></td>
                                 </tr>
                             {{/each}}
                             </tbody>
@@ -92,8 +92,8 @@
                                     <td>{{comp this.condition}}</td>
                                     <td>{{this.pointsTraded}}</td>
                                     <td>{{this.swapDate}}</td>
-                                    <td><a href="/{{this.receiverID}}/received/{{this.id}}">Received</a></td>
-                                    <td><a href="/{{this.receiverID}}/notreceived/{{this.id}}">Never Received</a></td>
+                                    <td class="greenBtn"><a href="/{{this.receiverID}}/received/{{this.id}}">Received</a></td>
+                                    <td class="redBtn"><a href="/{{this.receiverID}}/notreceived/{{this.id}}">Never Received</a></td>
                                 </tr>
                             {{/each}}
                             </tbody>
