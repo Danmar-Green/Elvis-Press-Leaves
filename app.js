@@ -435,36 +435,53 @@ var hbs = require("express-handlebars").create({
                         res.send(err);
                     } else {
                         // delete from sender's bookshelf in db
-                        mysql.pool.query(delUserBook, [req.body.senderID, req.body.bookID, req.body.pointsTraded], (err, result) => {
-                            if (err) {
-                                console.log('error: ', err);
-                                res.send(err);
-                            } else {
-                                // add pending points to sender's pending account balance
-                                mysql.pool.query(addPndPts, [req.body.pointsTraded, req.body.senderID], (err, result) => {
-                                    if (err) {
-                                        console.log('error: ', err);
-                                        res.send(err);
-                                    } else {
-                                        // get shipping information for recipient
-                                        mysql.pool.query(getShippingAddress, req.body.receiverID, (err, result) => {
-                                            if (err) {
-                                                console.log('error: ', err);
-                                                res.send(err);
-                                            } else {
-                                                contents.shipping = result;
-                                                res.send(contents);
-                                            }
-                                        });
-                                    }
-                                });
-                            }
-                        });
+                        delete_book(req);
                     }
                 });
             }
         });
     });
+
+    function delete_book(req){
+      mysql.pool.query(delUserBook, [req.body.senderID, req.body.bookID, req.body.pointsTraded], (err, result) => {
+          if (err) {
+              console.log('error: ', err);
+              res.send(err);
+          } else {
+              // add pending points to sender's pending account balance
+              add_points(req);
+          }
+      });
+
+    }
+
+    function add_points(req){
+      mysql.pool.query(addPndPts, [req.body.pointsTraded, req.body.senderID], (err, result) => {
+          if (err) {
+              console.log('error: ', err);
+              res.send(err);
+          } else {
+              // get shipping information for recipient
+              get_shipping_info(req);
+          }
+      });
+
+
+    }
+
+    function get_shipping_info(req){
+
+      mysql.pool.query(getShippingAddress, req.body.receiverID, (err, result) => {
+          if (err) {
+              console.log('error: ', err);
+              res.send(err);
+          } else {
+              contents.shipping = result;
+              res.send(contents);
+          }
+      });
+
+    }
 
     // REJECT ROUTE
     app.get("/:userID/reject/:swapID", function (req, res, next) {
