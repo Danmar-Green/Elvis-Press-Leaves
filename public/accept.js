@@ -56,30 +56,40 @@ function acceptSwap(){
             pointsTraded : document.getElementById("points").textContent,
             swapDate : dateFormat,
         };
+
         req.open("POST", "/postAccept", true);
         req.setRequestHeader('Content-Type', 'application/json');
-        // Show recipient info or error message
-        req.addEventListener('load',function(){
-            if(req.status >= 200 && req.status < 400){
-                var response = JSON.parse(req.responseText);
 
-                // Add receiving user's mailing info
-                var spanID = document.getElementById("recipientName");
-                var mail1 = document.getElementById("mailingName");
-                var mail2 = document.getElementById("mailingStreet");
-                var mail3 = document.getElementById("mailingState");
+        show_recipient_info(req);
 
-                spanID.textContent = response.shipping[0].firstName;
-                mail1.textContent = response.shipping[0].firstName + " " + response.shipping[0].lastName;
-                mail2.textContent = response.shipping[0].street;
-                mail3.textContent = response.shipping[0].city +  ", "  + response.shipping[0].state + ", " + response.shipping[0].zipCode;
-
-                showSuccess();
-            }
-            else {
-                showError();
-            }});
         req.send(JSON.stringify(acceptData));
         event.preventDefault();
     })
+}
+
+/*function to show recipient*/
+function show_recipient_info(req){
+
+  // Show recipient info or error message
+  req.addEventListener('load',function(){
+      if(req.status >= 200 && req.status < 400){
+          var response = JSON.parse(req.responseText);
+
+          // Add receiving user's mailing info
+          var spanID = document.getElementById("recipientName");
+          var mail1 = document.getElementById("mailingName");
+          var mail2 = document.getElementById("mailingStreet");
+          var mail3 = document.getElementById("mailingState");
+
+          spanID.textContent = response.shipping[0].firstName;
+          mail1.textContent = response.shipping[0].firstName + " " + response.shipping[0].lastName;
+          mail2.textContent = response.shipping[0].street;
+          mail3.textContent = response.shipping[0].city +  ", "  + response.shipping[0].state + ", " + response.shipping[0].zipCode;
+
+          showSuccess();
+      }
+      else {
+          showError();
+      }});
+
 }
