@@ -58,7 +58,9 @@
         </tr>
       {{#each bookList as |book|}}
         <tr>
-          <td>{{book.username}}</td>
+          {{#each @root.userInfo as |usr|}}
+          <td><a href="/{{usr.id}}/viewshelf/{{trdPtr usr.id book.userID usr.id}}">{{book.username}}</a></td>
+          {{/each}}
           <td>{{book.title}}</td>
           <td>{{book.author}}</td>
           <td>{{book.isbn}}</td>
